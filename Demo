@@ -4,6 +4,16 @@ Added by Anuj to test
 HEAD
 sourabh test
 
+<<<<<<< HEAD
 code form master
 one more test on demo
  Demo
+=======
+one more test on demo
+
+test code checked in
+Added by Anuj to test
+1123
+
+one more test on demo
+>>>>>>> Demo
