@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-hi how are you?
-=======
-hiiiii
->>>>>>> Demo
-
-
-test branch merge
