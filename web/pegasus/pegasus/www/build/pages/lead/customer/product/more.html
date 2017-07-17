@@ -1,0 +1,72 @@
+<style type="text/css">
+    .segment-button {
+    color: #000!important;
+}
+
+.segment-button.segment-activated {
+    border-color: #f89420!important;
+    color: #f89420!important;
+    opacity: 1!important;
+}
+</style>
+
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{'lookup.productType.' + appProvider.current.suggestionData.suggestion.productType | translate}}
+        </ion-title>
+        <ion-buttons right>
+             <button (click)="showMore()" *ngIf="tabs_value==true">
+                {{"action.show" | translate}}
+                <ion-icon name="eye"></ion-icon>
+            </button>
+            <button (click)="hideMore()" *ngIf="tabs_value==false">
+                {{"action.less" | translate}}
+                <ion-icon name="eye-off"></ion-icon>
+            </button>
+            <button (click)="onSelect()" *ngIf="showSelect()">
+                {{"action.select" | translate}}
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+   
+</ion-header>
+<ion-content class="product" [ngSwitch]="section">
+ <ion-toolbar no-border *ngIf="tabs_main==false">
+        <ion-segment [(ngModel)]="section" secondary  >
+                <ion-segment-button value="info">
+                    {{'lead.products.more.info' | translate}}
+                </ion-segment-button>
+                <ion-segment-button [value]="tab" *ngFor="let tab of appProvider.current.salesGroupData.tabs">
+                {{ 'lead.products.more.' + tab | translate}}
+                </ion-segment-button>
+             </ion-segment>
+    </ion-toolbar>
+    <ng-container *ngSwitchCase="'info'">
+        <ion-row>
+            
+                <ion-card>
+                   <img  [src]="cordovaProvider.getStoredPath('product/' + appProvider.current.suggestionData.productData.product + '/' + appProvider.current.salesGroupData.salesGroup + '/' + appProvider.current.salesGroupData.salesGroup + '.jpg')" style="max-height:480px"/>
+                    <ion-item text-wrap class="item-override">
+                    <ion-avatar item-right *ngIf="appProvider.current.salesGroupData.id && appProvider.current.salesGroupData.likeid!='true'">
+                        <ion-icon secondary name="heart"></ion-icon>
+                    </ion-avatar>
+                     <h2>{{'lookup.productSalesGroup.' + appProvider.current.salesGroupData.salesGroup | translate}}</h2>
+                     <ion-row wrap>
+                        <ion-col width-50 ion-item text-wrap *ngFor="let item of appProvider.current.salesGroupData.items">
+                            <ion-avatar item-left>
+                                <img [src]="'image/icon/' + item.icon">
+                            </ion-avatar>
+                            <h2>{{item.header}}</h2>
+                            <p>{{item.description}}</p>
+                        </ion-col>
+                      </ion-row>
+                    </ion-item>
+                </ion-card>
+     </ion-row>
+    </ng-container>
+    <ng-container *ngFor="let tab of appProvider.current.salesGroupData.tabs">
+        <img [src]="cordovaProvider.getStoredPath('product/' + appProvider.current.suggestionData.productData.product + '/' + appProvider.current.salesGroupData.salesGroup + '/' + tab + '.jpg')"
+             *ngSwitchCase="tab"/>
+    </ng-container>
+</ion-content>

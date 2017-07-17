@@ -1,0 +1,75 @@
+// http://ionicframework.com/docs/v2/theming/
+// Ionic Shared Functions
+// --------------------------------------------------
+// Makes Ionic Sass functions available to your App
+@import 'globals.core'; // App Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files. Setting
+// variables before Ionic's Sass will use these variables rather than
+// Ionic's default Sass variable values. App Shared Sass imports belong
+// in the app.core.scss file and not this file. Sass variables specific
+// to the mode belong in either the app.ios.scss or app.md.scss files.
+// App Shared Color Variables
+// --------------------------------------------------
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+// Both iOS and MD colors can be further customized if colors
+// are different per mode.
+
+$white: #fff;
+$green: #12b10e;
+$gray: #414141;
+$medium-gray: #dedede;
+$light-gray: #f4f4f4;
+$yellow: #fbb817;
+$orange: #f4791f;
+$midorange: #f89420;
+$light-blue: #0e67b1;
+$baby-blue: #71baf3;
+$base-blue: #0066B3;
+$dark-blue: #004e92;
+$white-blue: #caf0ff;
+$red: #f53d3d;
+$colors: (primary: $base-blue, secondary: $midorange, danger: $red, gray: $medium-gray, green: $green);
+$radius: .3rem;
+$v-pad: 1.5rem;
+$h-pad: 1.5rem;
+$h-pad-half: $h-pad/2;
+$gradient1: #1e5799;
+$gradient2: #0091ff;
+$h1: 2rem;
+
+@mixin border-radius() {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin dshadow($hlength, $vlength, $blur, $opacity, $hlength2, $vlength2, $blur2, $opacity2, $inset:null) {
+  -webkit-box-shadow: $inset $hlength $vlength $blur 0 rgba(0, 0, 0, $opacity), $inset $hlength2 $vlength2 $blur2 0 rgba(0, 0, 0, $opacity2);
+  -moz-box-shadow: $inset $hlength $vlength $blur 0 rgba(0, 0, 0, $opacity), $inset $hlength2 $vlength2 $blur2 0 rgba(0, 0, 0, $opacity2);
+  box-shadow: $inset $hlength $vlength $blur 0 rgba(0, 0, 0, $opacity), $inset $hlength2 $vlength2 $blur2 0 rgba(0, 0, 0, $opacity2);
+}
+
+@mixin gradient($color1, $color2) {
+  background: -moz-linear-gradient(top, $color1 0%, $color2 100%);
+  background: -webkit-linear-gradient(top, $color1 0%, $color2 100%);
+  background: linear-gradient(to bottom, $color1 0%, $color2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=  '$color1', endColorstr='$color2', GradientType=0);
+}
+
+@mixin shadow-1() {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+@mixin shadow-3() {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+@mixin shadow-4() {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}

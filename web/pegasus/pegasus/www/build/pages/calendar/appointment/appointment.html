@@ -1,0 +1,67 @@
+<ion-header>
+    <ion-toolbar >
+        <ion-title>
+            {{(appointment && appointment.id ? "action.edit" : "action.create") | translate}} {{"calendar.appointment" | translate | lowercase}}
+        </ion-title>
+        <ion-buttons right>
+            <button (click)="onDismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <form #appointmentForm="ngForm" novalidate  (ngSubmit)="onCreate()">
+        <ion-card>
+            <ion-card-content>
+                 <ion-item *ngIf="leadsshow==true && !appointment.exchangeId">
+                    <ion-label stacked>{{"calendar.fullName" | translate}} *</ion-label>
+                    <ion-select [(ngModel)]="appointment.leadId" name="leadId" #leadId="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate" >
+                        <ion-option *ngFor="let lead of leads" [value]="lead">{{lead.fullname}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item *ngIf="leadsshow==false && !appointment.exchangeId">
+                    <!-- <ion-label stacked>{{"calendar.fullName" | translate}} *</ion-label>  -->
+                 <div>{{leadFirst_Name}} {{leadLast_Name}}</div>
+                </ion-item>
+                <ion-item *ngIf="!appointment.exchangeId">
+                    <ion-label stacked>{{"calendar.description" | translate}}</ion-label>
+                    <ion-input type="text" [(ngModel)]="appointment.subject" name="subject" #subject="ngModel" maxlength="200"></ion-input>>
+                </ion-item>
+                <ion-item *ngIf="appointment.exchangeId">
+                    <ion-label stacked>{{"calendar.description" | translate}}</ion-label>
+                    <ion-input type="text" [value]="appointment.subject" disabled></ion-input>>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"calendar.startDateTime" | translate}} *</ion-label>
+                    <ion-datetime (ionChange)="onStartChanged()" [(ngModel)]="appointment.start" name="start" #start="ngModel" displayFormat="DD-MM-YYYY hh:mm A" required [cancelText]="'action.cancel' | translate"
+                                  [doneText]="'action.submit' | translate"></ion-datetime>
+                </ion-item>
+                <p [hidden]="(appointment.start && appointment.end) || (!appointment.start && !appointment.end) || (appointment.start && !appointment.end)" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <ion-item>
+                    <ion-label stacked>{{"calendar.endDateTime" | translate}} *</ion-label>
+                    <ion-datetime [(ngModel)]="appointment.end" name="end" #end="ngModel" displayFormat="DD-MM-YYYY hh:mm A" required [cancelText]="'action.cancel' | translate"
+                                  [doneText]="'action.submit' | translate"></ion-datetime>
+                </ion-item>
+                <p [hidden]="(appointment.start && appointment.end) || (!appointment.start && !appointment.end) || (!appointment.start && appointment.end)" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <p *ngIf="(appointment.start && appointment.end)  && toDateLessThanFromDate(appointment.start, appointment.end)" danger padding-left>
+                    {{"message.mustBeGreaterThanOrEqualTo" | translate}} {{"calendar.startDateTime" | translate}}
+                </p>
+                <ion-item>
+                    <ion-label stacked>{{"calendar.location" | translate}} *</ion-label>
+                    <ion-input [(ngModel)]="appointment.location" name="location" #location="ngModel" maxlength="140" required></ion-input>
+                </ion-item>
+                <ion-buttons padding-top>
+                    <button type="submit" [disabled]="!appointmentForm.form.valid || toDateLessThanFromDate(appointment.start, appointment.end)" secondary>{{"action.submit" |
+                        translate}}
+                    </button>
+                </ion-buttons>
+            </ion-card-content>
+        </ion-card>
+    </form>
+    <print *ngIf="appProvider.debug" [value]="appointment"></print>
+</ion-content>

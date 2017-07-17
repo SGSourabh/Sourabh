@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title text-center>{{'lead.applications.applications' | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="customer-applications">
+    <ion-row wrap *ngIf="applications">
+        <ion-col width-33 no-padding *ngFor="let applicationData of applications">
+            <ion-card>
+                <ion-card-header>
+
+                 {{"lookup.productType." + applicationData.productType | translate}}
+                
+                   <!--  {{("lead.applications.category." + categoryKey(applicationData.category)) | translate}} -->
+                
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row>
+                          <!--<ion-col ion-item width-50>-->
+                         <!--<ion-label stacked>{{"lead.applications.id" | translate}}</ion-label>-->
+                            <!--<ion-input [value]="applicationData.id" disabled></ion-input>-->
+                        <!--</ion-col>-->
+                        <!-- <ion-col ion-item>
+                            <ion-label stacked>{{"lead.applications.created" | translate}}</ion-label>
+                            <ion-input [value]="applicationData.created | date:'dd-MM-y HH:mm:ss'" disabled></ion-input>
+                        </ion-col> -->
+                    </ion-row>
+                    <ion-buttons padding-top>
+                        <button secondary (click)="onSelect(applicationData)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>

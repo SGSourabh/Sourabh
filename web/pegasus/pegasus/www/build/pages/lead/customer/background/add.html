@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-title>
+            {{"action.add" | translate}}
+        </ion-title>
+        <ion-buttons end>
+            <button (click)="onDismiss()">
+                {{"action.close" | translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-row wrap>
+        <ion-col width-100 no-padding >
+            <ion-card *ngIf="work" >
+               <!-- employmentType -->
+                <ion-card-header margin-bottom text-wrap >
+                        {{"lead.background.employmentType" | translate}} *
+                    </ion-card-header>
+                    <ion-card-content>
+                    <ion-list radio-group [(ngModel)]="employmentType">
+                    <ion-item>
+                    <ion-label>{{'lookup.employmentType.civil_servant' | translate}}</ion-label>
+                            <ion-radio value="civil_servant"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                    <ion-label>{{'lookup.employmentType.management_level' | translate}}</ion-label>
+                            <ion-radio value="management_level"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                    <ion-label>{{'lookup.employmentType.professional_employee' | translate}}</ion-label>
+                            <ion-radio value="professional_employee"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                    <ion-label>{{'lookup.employmentType.direct_employee' | translate}}</ion-label>
+                            <ion-radio value="direct_employee"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                    <ion-label>{{'lookup.employmentType.staff_level' | translate}}</ion-label>
+                            <ion-radio value="staff_level"></ion-radio>
+                    </ion-item>
+                    </ion-list>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onEmploymentType(employmentType)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+                    <!-- {{employmentType}} -->
+                    </ion-card-content>
+                  
+            </ion-card>
+
+
+            <ion-card *ngIf="business">
+               <!-- employmentType -->
+                <ion-card-header margin-bottom text-wrap >
+                        {{"lead.background.businessType" | translate}}  *
+                    </ion-card-header>
+                    <ion-card-content>
+                    <ion-list radio-group [(ngModel)]="bussinessType">
+                    <ion-item>
+                    <ion-label>{{'lookup.businessType.business_owner' | translate}}</ion-label>
+                            <ion-radio value="business_owner"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                    <ion-label>{{'lookup.businessType.self_employed' | translate}}</ion-label>
+                            <ion-radio value="self_employed"></ion-radio>
+                    </ion-item>                
+                    </ion-list>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onbussinessStatus(bussinessType)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+<!--                     {{employmentType}} -->
+                    </ion-card-content>
+                  
+            </ion-card>
+         
+        </ion-col>
+    </ion-row>
+</ion-content>

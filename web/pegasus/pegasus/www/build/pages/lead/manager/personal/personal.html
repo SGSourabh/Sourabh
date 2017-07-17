@@ -1,0 +1,124 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{lead.surname}} {{lead.name}}</ion-title>
+        <ion-buttons right>
+            <button [disabled]="formInvalid" (click)="onSave()">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <form #leadForm="ngForm" novalidate (ngSubmit)="onSave()" *ngIf="lead" [hidden]="onForm(leadForm)">
+        <ion-row>
+            <ion-col width-50>
+                <ion-card>
+                    <ion-card-header>
+                        {{"lead.personal.identity" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.name" | translate}} *</ion-label>
+                            <ion-input [(ngModel)]="lead.name" name="name" type="text" maxlength="20" #name="ngModel" required></ion-input>
+                        </ion-item>
+                        <p [hidden]="name.valid || !name.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.surname" | translate}} *</ion-label>
+                            <ion-input [(ngModel)]="lead.surname" name="surname" type="text" maxlength="20" #surname="ngModel" required></ion-input>
+                        </ion-item>
+                        <p [hidden]="surname.valid || !surname.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.nationalId" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.nationalId" name="nationalId" type="text" maxlength="16" #nationalId="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.dateOfBirth" | translate}} </ion-label>
+                            <ion-datetime [(ngModel)]="lead.dateOfBirth" name="dateOfBirth" #dateOfBirth="ngModel" displayFormat="DD-MM-YYYY" [cancelText]="'action.cancel' | translate"
+                                          [doneText]="'action.submit' | translate" ></ion-datetime>
+                        </ion-item>
+                        <!-- <p [hidden]="dateOfBirth.valid || !dateOfBirth.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p> -->
+                        <ion-item>
+                            <ion-label stacked>{{"lead.gender" | translate}}</ion-label>
+                            <ion-select [(ngModel)]="lead.gender" name="gender" #gender="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let gender of lookupProvider.genders | async" [value]="gender">{{'lookup.gender.' + gender | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.maritalStatus" | translate}}</ion-label>
+                            <ion-select [(ngModel)]="lead.maritalStatus" name="maritalStatus" #maritalStatus="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let maritalStatus of lookupProvider.maritalStatuses | async" [value]="maritalStatus">{{'lookup.maritalStatus.' + maritalStatus | translate}}
+                                </ion-option>
+                            </ion-select>
+                        </ion-item>
+                       <!--  <ion-item>
+                            <ion-label stacked>{{"lead.branch" | translate}}</ion-label>
+                            <ion-select [(ngModel)]="lead.branch" name="branch" #title="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let title of lookupProvider.bankBranches | async" [value]="title">{{'lookup.bankBranches.' + title | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+ -->                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col width-50>
+                <ion-card>
+                    <ion-card-header>
+                        {{"lead.personal.communication" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.phone" | translate}} *</ion-label>
+                            <ion-input [(ngModel)]="lead.phone" name="phone" type="text" maxlength="35" #phone="ngModel" required></ion-input>
+                        </ion-item>
+                        <p [hidden]="phone.valid || !phone.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.email" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.email" name="email" type="email" maxlength="35" #email="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.addressLine1" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.addressLine1" name="addressLine1" type="text" maxlength="100" #addressLine1="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.addressLine2" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.addressLine2" name="addressLine2" type="text" maxlength="100" #addressLine2="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.addressLine3" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.addressLine3" name="addressLine3" type="text" maxlength="100" #addressLine3="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.addressLine4" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.addressLine4" name="addressLine4" type="text" maxlength="100" #addressLine4="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.city" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.city" name="city" type="text" maxlength="30" #city="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.state" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.state" name="state" type="text" maxlength="30" #state="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.zipCode" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="lead.zipCode" name="zipCode" type="text" maxlength="10" #zipCode="ngModel"></ion-input>
+                        </ion-item>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </form>
+    <print *ngIf="appProvider.debug" name="lead" [value]="lead"></print>
+</ion-content>

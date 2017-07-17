@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{"registration.subtitle" | translate}} {{(appProvider.env !== 'PROD' && appProvider.env !== 'STAGING') ? appProvider.env: ''}}</ion-title>
+        <ion-buttons end>
+            <button (click)="appProvider.toggleLanguage()">
+                {{("translation." + translateService.currentLang) | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="registration">
+    <ion-row center class="row" *ngIf="registration">
+        <ion-col width-33 offset-33 no-padding>
+            <ion-card>
+                <ion-card-header>
+                    <ion-row center>
+                        <ion-col width-33 offset-33>
+                            <img src="image/logo.svg">
+                        </ion-col>
+                    </ion-row>
+                </ion-card-header>
+                <ion-card-content>
+                    <form #registrationForm="ngForm" novalidate>
+                        <ion-item>
+                            <ion-label stacked>{{"registration.username" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="registration.username" name="username" type="text" #username="ngModel" required>
+                            </ion-input>
+                        </ion-item>
+                        <p [hidden]="username.valid || !username.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-item>
+                            <ion-label stacked>{{"registration.password" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="registration.password" name="password" type="password" #password="ngModel" required>
+                            </ion-input>
+                        </ion-item>
+                        <p [hidden]="password.valid || !password.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-buttons padding-top>
+                            <button type="submit" [disabled]="!registrationForm.form.valid" (click)="onSubmit()" secondary>{{"action.register" | translate}}</button>
+                        </ion-buttons>
+                    </form>
+                    <print *ngIf="appProvider.debug" [value]="registration"></print>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>

@@ -1,0 +1,156 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{'lookup.productType.' + appProvider.current.suggestionData.suggestion.productType | translate}} {{"lead.card.suitability.suitability" | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <ion-card-content>
+            <ion-item text-wrap>
+                <ion-label stacked>{{'lead.card.suitability.policy' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.policy" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let policy of policyOptions" [value]="policy">{{'lead.card.suitability.lookup.policy.' + policy | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('haveYouPassedPropationAndSignOfficialContractWithVib')">
+                <ion-label stacked>{{'lead.card.suitability.haveYouPassedPropationAndSignOfficialContractWithVib' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.haveYouPassedPropationAndSignOfficialContractWithVib" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let yesNo of yesNoOptions" [value]="yesNo">{{'lead.card.suitability.lookup.yesNo.' + yesNo | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whatIsYourGradeLevel')">
+                <ion-label stacked>{{'lead.card.suitability.whatIsYourGradeLevel' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.whatIsYourGradeLevel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let jobGrade of jobGradeOptions" [value]="jobGrade">{{'lead.card.suitability.lookup.jobGrade.' + jobGrade | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('ownershipOfSavingBookOrCertificateOfDeposit')">
+                <ion-label stacked>{{'lead.card.suitability.ownershipOfSavingBookOrCertificateOfDeposit' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.ownershipOfSavingBookOrCertificateOfDeposit" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let depositOwnership of depositOwnershipOptions" [value]="depositOwnership">{{'lead.card.suitability.lookup.depositOwnership.' + depositOwnership |
+                        translate}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('isThisCollateralFrozenToSecureForAnyLoanCard')">
+                <ion-label stacked>{{'lead.card.suitability.isThisCollateralFrozenToSecureForAnyLoanCard' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.isThisCollateralFrozenToSecureForAnyLoanCard" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let yesNo of yesNoOptions" [value]="yesNo">{{'lead.card.suitability.lookup.yesNo.' + yesNo | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('valueOfTheTermDeposit')">
+                <ion-label stacked>{{'lead.card.suitability.valueOfTheTermDeposit' | translate}} ({{"lead.card.suitability.lookup.currency." + model.currencyOfTheTermDeposit | translate}})</ion-label>
+                <ion-input [(ngModel)]="model.valueOfTheTermDeposit" currency maxlength="19">
+                </ion-input>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('currencyOfTheTermDeposit')">
+                <ion-label stacked>{{'lead.card.suitability.currencyOfTheTermDeposit' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.currencyOfTheTermDeposit" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let currency of currencyOptions" [value]="currency">{{'lead.card.suitability.lookup.currency.' + currency | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('areYouAVietnameseOrForeigner')">
+                <ion-label stacked>{{'lead.card.suitability.areYouAVietnameseOrForeigner' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.areYouAVietnameseOrForeigner" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let nationality of nationalityOptions" [value]="nationality">{{'lead.card.suitability.lookup.nationality.' + nationality | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whatIsYourApproximateMonthlySalary')">
+                <ion-label stacked>{{'lead.card.suitability.whatIsYourApproximateMonthlySalary' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                <ion-input [(ngModel)]="model.whatIsYourApproximateMonthlySalary" currency maxlength="19">
+                </ion-input>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whatIsTenorOfYourCurrentLaborContract')">
+                <ion-label stacked>{{'lead.card.suitability.whatIsTenorOfYourCurrentLaborContract' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.whatIsTenorOfYourCurrentLaborContract" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let duration of durationOptions" [value]="duration">{{'lead.card.suitability.lookup.duration.' + duration | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whichBankDoYouHaveCreditCardsAt')">
+                <ion-label stacked>{{'lead.card.suitability.whichBankDoYouHaveCreditCardsAt' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.whichBankDoYouHaveCreditCardsAt" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let creditBank of creditBankOptions" [value]="creditBank">{{'lead.card.suitability.lookup.creditBank.' + creditBank | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('howLongHaveYouUsedThisCreditCard')">
+                <ion-label stacked>{{'lead.card.suitability.howLongHaveYouUsedThisCreditCard' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.howLongHaveYouUsedThisCreditCard" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let duration of durationOptions" [value]="duration">{{'lead.card.suitability.lookup.duration.' + duration | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whatIsTheLimitOfThatCreditCard')">
+                <ion-label stacked>{{'lead.card.suitability.whatIsTheLimitOfThatCreditCard' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                <ion-input [(ngModel)]="model.whatIsTheLimitOfThatCreditCard" currency maxlength="19">
+                </ion-input>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('howLongDoYouHaveBeenVnAirlineMembership')">
+                <ion-label stacked>{{'lead.card.suitability.howLongDoYouHaveBeenVnAirlineMembership' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.howLongDoYouHaveBeenVnAirlineMembership" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let duration of durationOptions" [value]="duration">{{'lead.card.suitability.lookup.duration.' + duration | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('howLongYourCompanyHasRun')">
+                <ion-label stacked>{{'lead.card.suitability.howLongYourCompanyHasRun' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.howLongYourCompanyHasRun" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let businessLife of businessLifeOptions" [value]="businessLife">{{'lead.card.suitability.lookup.businessLife.' + businessLife | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('howMuchIsYourMonthlyBusinessIncome')">
+                <ion-label stacked>{{'lead.card.suitability.howMuchIsYourMonthlyBusinessIncome' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                <ion-input [(ngModel)]="model.howMuchIsYourMonthlyBusinessIncome" currency maxlength="19">
+                </ion-input>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whichCompanyDoYouWorkFor')" (click)="onSearchCompany()">
+                <ion-label stacked>{{'lead.card.suitability.whichCompanyDoYouWorkFor' | translate}}</ion-label>
+                <ion-input [value]="model.whichCompanyDoYouWorkFor" type="text" readonly>
+                </ion-input>
+                <ion-icon item-right name="search"></ion-icon>
+            </ion-item>
+            <ion-item text-wrap *ngIf="showQuestion('whichIsYourPositionInYourCompany')">
+                <ion-label stacked>{{'lead.card.suitability.whichIsYourPositionInYourCompany' | translate}}</ion-label>
+                <ion-select [(ngModel)]="model.whichIsYourPositionInYourCompany" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let position of positionOptions" [value]="position">{{'lead.card.suitability.lookup.position.' + position | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-item>
+            <ion-avatar item-left>
+                <img src="image/icon/prd_credit-cards.svg">
+            </ion-avatar>
+            <h2>{{"lead.card.suitability.suitability" | translate}}</h2>
+        </ion-item>
+        <ion-card-content>
+            <ion-row wrap>
+                <ion-col ion-item width-25>
+                    <ion-label stacked>{{"lead.card.suitability.check" | translate}}</ion-label>
+                    <ion-input [value]="('lead.card.suitability.' + (model.calculatedResult() ? 'passed' : 'failed')) | translate" type="text" readonly>
+                    </ion-input>
+                </ion-col>
+                <ng-container *ngIf="model.calculatedResult()">
+                    <ion-col ion-item width-25 *ngIf="model.calculatedLimit().limit">
+                        <ion-label stacked>{{"lead.card.suitability.estimatedLimit" | translate}} ({{(model.currencyOfTheTermDeposit ? 'lead.card.suitability.lookup.currency.' + model.currencyOfTheTermDeposit : "lead.lending.calculator.vnd") | translate}})</ion-label>
+                        <ion-input [value]="model.calculatedLimit().limit | number:'1.2-2'" type="text" readonly>
+                        </ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-25 *ngIf="model.calculatedLimit().min">
+                        <ion-label stacked>{{"lead.card.suitability.estimatedLimitFrom" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                        <ion-input [value]="model.calculatedLimit().min | number:'1.2-2'" type="text" readonly>
+                        </ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-25 *ngIf="model.calculatedLimit().max">
+                        <ion-label stacked>{{"lead.card.suitability.estimatedLimitTo" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                        <ion-input [value]="model.calculatedLimit().max  | number:'1.2-2'" type="text" readonly>
+                        </ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-25 *ngIf="model.calculatedCard()">
+                        <ion-label stacked>{{"lead.card.suitability.recommendedCardType" | translate}}</ion-label>
+                        <ion-input [value]="'lead.card.suitability.lookup.card.' + model.calculatedCard() | translate" type="text" readonly>
+                        </ion-input>
+                    </ion-col>
+                </ng-container>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

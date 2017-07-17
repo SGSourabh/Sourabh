@@ -1,0 +1,106 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{'lookup.productSalesGroup.' + appProvider.current.salesGroupData.salesGroup | translate}} {{"lead.saving.calculator.calculator" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onExport()">
+                {{"action.exportDocument" | translate}}
+                <ion-icon name='download'></ion-icon>
+            </button>
+            <button (click)="onEmail()">
+                {{"action.emailDocument" | translate}}
+                <ion-icon name='mail'></ion-icon>
+            </button>
+            <button (click)="onClose()">
+                {{'action.close'| translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="calculator">
+    <ion-card>
+        <ion-card-content>
+
+            <ion-row class="row">
+                <ion-col width-80>
+                    <canvas #chart></canvas>
+                </ion-col>
+                <ion-col width-20 *ngIf="model">
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.saving.calculator.interestRate" | translate}} (%)</ion-label>
+                                <ion-input [value]="model.calculatedInterestRate() | async | number:'1.2-2'" type="text" readonly>
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.saving.calculator.interestAmount" | translate}} ({{"lead.saving.calculator.lookup.currency." + model.currency | translate}})</ion-label>
+                                <ion-input [value]="model.calculatedInterestAmount() | async | number:'1.2-2'" type="text" readonly>
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.saving.calculator.totalAmount" | translate}} ({{"lead.saving.calculator.lookup.currency." + model.currency | translate}})</ion-label>
+                                <ion-input [value]="model.calculatedTotalAmount() | async | number:'1.2-2'" type="text" readonly>
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="model">
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>{{"lead.saving.calculator.currency" | translate}}</ion-label>
+                        <ion-select (ionChange)="onCurrencyChange()" [(ngModel)]="model.currency" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                            <ion-option *ngFor="let currency of currencyOptions" [value]="currency">{{'lead.saving.calculator.lookup.currency.' + currency |
+                                translate}}
+                            </ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>{{"lead.saving.calculator.depositAmount" | translate}} ({{"lead.saving.calculator.lookup.currency." + model.currency | translate}})</ion-label>
+                        <ion-input (input)="onDepositAmountChange()" [(ngModel)]="model.depositAmount" currency maxlength="19">
+                        </ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="model">
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>{{"lead.saving.calculator.interestReceived" | translate}}</ion-label>
+                        <ion-select (ionChange)="onInterestReceivedChange()" [(ngModel)]="model.interestReceived" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                            <ion-option *ngFor="let interestReceived of interestReceivedOptions() | async" [value]="interestReceived">{{'lead.saving.calculator.lookup.interestReceived.' +
+                                interestReceived |
+                                translate}}
+                            </ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>{{"lead.saving.calculator.depositTerm" | translate}}</ion-label>
+                        <ion-select (ionChange)="onDepositTermChange()" [(ngModel)]="model.depositTerm" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                            <ion-option *ngFor="let depositTerm of depositTermOptions() | async" [value]="depositTerm">{{depositTerm.term + ' ' + ('lead.saving.calculator.lookup.duration.' +
+                                depositTerm.duration | translate)}}
+                            </ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+        </ion-card-content>
+    </ion-card>
+    <print *ngIf="appProvider.debug" name="model" [value]="model"></print>
+</ion-content>

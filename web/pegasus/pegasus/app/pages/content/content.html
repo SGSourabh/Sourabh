@@ -1,0 +1,58 @@
+<ion-header class="content">
+    <ion-navbar primary>
+        <ion-title>
+            {{"content.content" | translate}}
+        </ion-title>
+        <ion-buttons right *ngIf="updating">
+            <ion-badge class="larger" item-right secondary>{{remaining()}}</ion-badge>
+        </ion-buttons>
+        <ion-buttons right>
+            <button (click)="onSkip()">
+                {{"action.skip" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="content">
+
+    <ng-container *ngIf="contents">
+
+        <ion-row center class="row" *ngIf="!updating">
+            <ion-col width-33 offset-33>
+                <ion-card>
+                    <ion-card-content>
+                        <ion-item>
+                            <h2>{{"content.outdated" | translate}}</h2>
+                            <ion-badge class="larger" item-right>{{contents.length}}</ion-badge>
+                        </ion-item>
+                        <ion-buttons>
+                            <button secondary full (click)="onUpdate()">
+                                {{"action.download" | translate}}
+                                <ion-icon name="cloud-download"></ion-icon>
+                            </button>
+                        </ion-buttons>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+
+        <ion-row wrap *ngIf="updating">
+            <ng-container *ngFor="let _contentStatus of contents;let _index = index">
+                <ion-col width-25 no-padding>
+                    <ion-card>
+                        <ion-item>
+                            <ion-badge item-left primary>{{_index + 1}}</ion-badge>
+                            <p text-center>{{(_contentStatus.done ? (_contentStatus.failed ? 'message.failed' : 'message.success') : 'content.downloading') | translate}}</p>
+                            <ion-spinner item-right *ngIf="!_contentStatus.done"></ion-spinner>
+                            <ion-icon name="checkmark" green item-right *ngIf="_contentStatus.done && !_contentStatus.failed"></ion-icon>
+                            <ion-icon name="close" danger item-right *ngIf="_contentStatus.done && _contentStatus.failed"></ion-icon>
+                        </ion-item>
+                    </ion-card>
+                </ion-col>
+            </ng-container>
+        </ion-row>
+
+    </ng-container>
+
+</ion-content>

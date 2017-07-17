@@ -1,0 +1,100 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-title>
+            {{"action.add" | translate}}
+        </ion-title>
+        <ion-buttons end>
+            <button (click)="onDismiss()">
+                {{"action.close" | translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-row wrap>
+        <ion-col width-100 no-padding >
+            <ion-card *ngIf="typeOfmodel=='personalbanking'" >
+               <!-- employmentType -->
+                <ion-card-header margin-bottom text-wrap >
+                      <!-- //  {{"lead.background.employmentType" | translate}} * -->
+                      {{"lead.fhc.bankList" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                    <ion-list *ngFor="let bank of personalBankingBankList">
+                        <ion-item>
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="true" ng-false-value="false"></ion-checkbox>
+                          </ion-item>
+                   </ion-list>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onPersonalBanking(personalBankingBankList)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+                   
+                    </ion-card-content>               
+            </ion-card>
+
+            <ion-card *ngIf="typeOfmodel=='personallending'" >
+               <!-- bankList -->
+                <ion-card-header margin-bottom text-wrap >
+                      <!-- //  {{"lead.background.bankList" | translate}} * -->
+                      {{"lead.fhc.bankList" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                    <ion-list *ngFor="let bank of personalLeadingBankList">
+                        <ion-item>
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="true" ng-false-value="false"></ion-checkbox>
+                          </ion-item>
+                   </ion-list>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onPersonalLeading(personalLeadingBankList)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+                    
+                    </ion-card-content>               
+            </ion-card>
+
+            <ion-card *ngIf="typeOfmodel=='businessbanking'" >
+               <!-- bankList -->
+                <ion-card-header margin-bottom text-wrap >
+                      <!-- //  {{"lead.background.bankList" | translate}} * -->
+                      {{"lead.fhc.bankList" | translate}} 
+                    </ion-card-header>
+                    <ion-card-content>
+                    <ion-list *ngFor="let bank of businessBankingBankList">
+                        <ion-item>
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="true" ng-false-value="false"></ion-checkbox>
+                          </ion-item>
+                   </ion-list>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onBusinessBanking(businessBankingBankList)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+                    
+                    </ion-card-content>               
+            </ion-card>
+             <ion-card *ngIf="typeOfmodel=='businesslending'" >
+               <!-- bankList -->
+                <ion-card-header margin-bottom text-wrap >
+                      <!-- //  {{"lead.background.bankList" | translate}} * -->
+                      {{"lead.fhc.bankList" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                    <ion-list *ngFor="let bank of businessLeadingBankList">
+                        <ion-item>
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="true" ng-false-value="false"></ion-checkbox>
+                          </ion-item>
+                   </ion-list>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onBusinessLeading(businessLeadingBankList)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+              
+                    </ion-card-content>               
+            </ion-card>
+
+            
+         
+        </ion-col>
+    </ion-row>
+</ion-content>

@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='arrow-back'></ion-icon>
+        </button>
+        <ion-title>{{"action.enrich" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onSkip()">
+                {{"action.skip" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="enrich">
+
+    <ng-container *ngIf="customers">
+
+        <ion-card *ngIf="customers.length === 0">
+            <ion-card-content>
+                <ion-item>
+                    <ion-avatar item-left class="avatar-override">
+                        <ion-icon danger name="warning"></ion-icon>
+                    </ion-avatar>
+                    <h2>{{"lead.enrich.notFound" | translate}}</h2>
+                </ion-item>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card *ngFor="let customer of customers">
+            <ion-card-header>
+                {{customer.name + ' ' + customer.surname}}
+            </ion-card-header>
+            <ion-card-content>
+                <ion-row>
+                    <ion-col ion-item width-33>
+                        <ion-label stacked>{{"customer.phone" | translate}}</ion-label>
+                        <ion-input [value]="customer.phone" disabled></ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-33>
+                        <ion-label stacked>{{"customer.nationalId" | translate}}</ion-label>
+                        <ion-input [value]="customer.nationalId" disabled></ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-33>
+                        <ion-label stacked>{{"customer.dateOfBirth" | translate}}</ion-label>
+                        <ion-input [value]="customer.dateOfBirth | date:'dd-MM-y'" disabled></ion-input>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col ion-item width-33>
+                        <ion-label stacked>{{"customer.branch" | translate}}</ion-label>
+                        <ion-input [value]="customer.branch" disabled></ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-33>
+                        <ion-label stacked>{{"customer.gender" | translate}}</ion-label>
+                        <ion-input [value]="customer.gender ? ('lookup.gender.' + customer.gender | translate) : null" disabled></ion-input>
+                    </ion-col>
+                    <ion-col ion-item width-33>
+                        <ion-label stacked>{{"customer.maritalStatus" | translate}}</ion-label>
+                        <ion-input [value]="customer.maritalStatus ? ('lookup.maritalStatus.' + customer.maritalStatus | translate) : null" disabled></ion-input>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col ion-item>
+                        <ion-label stacked>{{"customer.address" | translate}}</ion-label>
+                        <ion-input [value]="customer.fullAddress" disabled></ion-input>
+                    </ion-col>
+                </ion-row>
+                <ion-buttons padding-top>
+                    <button secondary (click)="onCustomerSelect(customer)">{{"action.select" | translate}}</button>
+                </ion-buttons>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+</ion-content>

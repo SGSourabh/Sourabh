@@ -1,0 +1,8 @@
+.print {
+  padding: 10px;
+  background-color: color($colors, light);
+  margin: 0;
+  span {
+    color: color($colors, primary);
+  }
+}

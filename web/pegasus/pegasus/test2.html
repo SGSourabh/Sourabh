@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+</head>
+<body>
+<canvas id="myChart"></canvas>
+<script>
+
+    Chart.plugins.register({
+        beforeDraw: function (instance) {
+            var context = instance.chart.ctx;
+            var gradient = context.createLinearGradient(0, 0, instance.chart.width, 0);
+            gradient.addColorStop(0, '#0066B3');
+            gradient.addColorStop(0.5, '#1d9eff');
+            gradient.addColorStop(1, '#0066B3');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, instance.chart.width, instance.chart.height);
+        }
+    });
+
+    var start = 1000;
+    var labels = [0, 1, 1, 2];
+    var data = [1000, 1100, 1200, 1300];
+    var yLabel = 'amount';
+    var chart = new Chart(document.getElementById("myChart").getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    fill: true,
+                    lineTension: 0,
+                    backgroundColor: "rgba(255,255,255,0.2)",
+                    borderWidth: 3,
+                    borderColor: "#fbb817",
+                    pointBorderColor: "#fbb817",
+                    pointBackgroundColor: "#fbb817",
+                    pointRadius: 5,
+                    pointHoverRadius: 5,
+                    data: data,
+                    spanGaps: false
+                }
+            ]
+        },
+        options: {
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 20,
+                    top: 20,
+                    bottom: 10
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                enabled: true,
+                backgroundColor: "#f89420",
+                displayColors: false,
+                titleFontStyle: "normal",
+                titleMarginBottom: 10,
+                bodyFontStyle: "normal",
+                footerFontStyle: "normal",
+                footerMarginTop: 10,
+                caretSize: 10,
+                xPadding: 10,
+                yPadding: 10,
+                callbacks: {
+                    beforeTitle: function (tooltipItem, data) {
+                        return 'Title:';
+                    },
+                    title: function (tooltipItem, data) {
+                        return (tooltipItem[0].yLabel - start) + ' VND';
+                    },
+                    beforeLabel: function (tooltipItem, data) {
+                        return 'Label:';
+                    },
+                    label: function (tooltipItem, data) {
+                        return (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] - (tooltipItem.index > 0 ? data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index - 1] : start)) + ' VND';
+                    }
+//                    ,
+//                    beforeFooter: function (tooltipItem, data) {
+//                        return 'Footer:';
+//                    },
+//                    footer: function (tooltipItem, data) {
+//                        return 'month ' + tooltipItem[0].xLabel;
+//                    }
+                }
+            },
+            scales: {
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: yLabel,
+                        fontColor: 'white'
+                    },
+                    gridLines: {
+                        color: 'rgba(255,255,255,0.3)'
+                    },
+                    ticks: {
+                        fontColor: 'white'
+                    }
+                }],
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'term',
+                        fontColor: 'white'
+                    },
+                    gridLines: {
+                        color: 'rgba(255,255,255,0.3)'
+                    },
+                    ticks: {
+                        fontColor: 'white'
+                    }
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>

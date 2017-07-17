@@ -1,0 +1,94 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-title>
+            {{"lead.goals.goal.goal" | translate}}
+        </ion-title>
+        <ion-buttons start>
+            <button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <form #goalForm="ngForm" novalidate (ngSubmit)="onGoalCreate(goal)">
+        <ion-card>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label stacked>{{"needs.goals.goal.name" | translate}}</ion-label>
+                    <ion-select [(ngModel)]="goal.name" name="name" #name="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let name of availableGoalNames" [value]="name">{{'lookup.goals.' + name | translate}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'needs.goals.goal.priority' | translate}}</ion-label>
+                            <ion-select [(ngModel)]="goal.priority" name="priority" #priority="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let priority of priorities" [value]="priority">{{priority}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'needs.goals.goal.duration' | translate}} ({{"lead.lending.calculator.month" | translate}})</ion-label>
+                            <ion-input [(ngModel)]="goal.duration" type="number" name="duration" integer integerMin="0" integerMax="9999"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'needs.goals.goal.available' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [(ngModel)]="goal.available" name="available" currency maxlength="19"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'needs.goals.goal.needed' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [(ngModel)]="goal.needed" name="needed" currency maxlength="19"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider>{{'needs.goals.goal.segment' | translate}}</ion-item-divider>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label>{{'needs.goals.goal.personal' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="goal.personal" name="personal" #goalPersonal="ngModel"></ion-checkbox>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label>{{'needs.goals.goal.business' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="goal.business" name="business" #goalBusiness="ngModel"></ion-checkbox>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider>{{'needs.goals.goal.type' | translate}}</ion-item-divider>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label>{{'needs.goals.goal.lending' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="goal.lending" name="lending" #goalLending="ngModel"></ion-checkbox>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label>{{'needs.goals.goal.saving' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="goal.saving" name="saving" #goalSaving="ngModel"></ion-checkbox>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-item>
+                    <ion-label stacked>{{'needs.goals.goal.note' | translate}}</ion-label>
+                    <ion-input [(ngModel)]="goal.note" name="note" #note="ngModel" maxlength="100"></ion-input>
+                </ion-item>
+                <ion-buttons padding-top>
+                    <button type="submit" [disabled]="!goalForm.form.valid" secondary>{{"action.submit" | translate}}</button>
+                </ion-buttons>
+            </ion-card-content>
+        </ion-card>
+    </form>
+    <print *ngIf="appProvider.debug" name="goal" [value]="goal"></print>
+</ion-content>

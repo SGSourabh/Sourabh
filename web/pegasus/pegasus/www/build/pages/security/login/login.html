@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{"login.login" | translate}} {{(appProvider.env !== 'PROD' && appProvider.env !== 'STAGING') ? appProvider.env: ''}}</ion-title>
+        <ion-buttons end>
+            <button (click)="appProvider.toggleLanguage()">
+                {{("translation." + translateService.currentLang) | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="login">
+    <ion-row center class="row" *ngIf="login">
+        <ion-col width-33 offset-33 no-padding>
+            <ion-card>
+                <ion-card-header>
+                    <ion-row center>
+                        <ion-col width-33 offset-33>
+                            <img src="image/logo.svg">
+                        </ion-col>
+                    </ion-row>
+                </ion-card-header>
+                <ion-card-content>
+                    <form (submit)='onSubmit()' #loginForm="ngForm" novalidate>
+                        <ion-item>
+                            <ion-label stacked>{{"login.username" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="login.username" ngModel name="username" type="text" #username="ngModel" required>
+                            </ion-input>
+                        </ion-item>
+                        <p [hidden]="username.valid || !username.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-item>
+                            <ion-label stacked>{{"login.password" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="login.password" ngModel name="password" type="password" #password="ngModel" required>
+                            </ion-input>
+                        </ion-item>
+                        <p [hidden]="password.valid || !password.touched" danger padding-left>
+                            {{"message.mandatory" | translate}}
+                        </p>
+                        <ion-buttons padding-top>
+                            <button type="submit" [disabled]="!loginForm.form.valid" secondary>{{"action.submit" | translate}}</button>
+                        </ion-buttons>
+                    </form>
+                    <print *ngIf="appProvider.debug" [value]="login"></print>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>

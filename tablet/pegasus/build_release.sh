@@ -1,0 +1,1 @@
+cd ~/Git/prosense/current/pegasus && ionic build android --release && cd platforms/android/build/outputs/apk/ && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/Git/prosense/current/pegasus/pegasus-release-key.keystore android-release-unsigned.apk pegasus && zipalign -vf 4 android-release-unsigned.apk pegasus.apk

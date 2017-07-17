@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"message.applicationSuccessful" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onExportDocument()">
+                {{"action.exportDocument" | translate}}
+                <ion-icon name='download'></ion-icon>
+            </button>
+            <button (click)="onEmailDocument()">
+                {{"action.emailDocument" | translate}}
+                <ion-icon name='mail'></ion-icon>
+            </button>
+            <button (click)="onComplete()">
+                {{"action.complete" | translate}}
+                <ion-icon name='done-all'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="thank-you">
+    <ion-row center class="row">
+        <ion-col width-80 offset-10 no-padding>
+            <ion-card text-center class="card-override">
+                <ion-card-header>
+                    <h1>Cám ơn quý khách đã đăng ký sử dụng sản phẩm và dịch vụ của VIB</h1>
+                </ion-card-header>
+                <ion-icon green name="checkmark"></ion-icon>
+                <ion-card-content>
+                    Thông tin quý khách cung cấp đã được gửi về hệ thống của chúng tôi. Nhân viên VIB đang tư vấn cho quý khách sẽ hướng dẫn quý khách các thủ tục và hồ sơ cần thiết để hoàn tất việc
+                    đăng ký
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <!--<print *ngIf="appProvider.debug" name="doc" [value]="doc"></print>-->
+</ion-content>

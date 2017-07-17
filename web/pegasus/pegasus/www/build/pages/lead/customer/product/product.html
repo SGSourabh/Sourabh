@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar primary hideBackButton>
+        <ion-title>{{'lookup.productType.' + appProvider.current.suggestionData.suggestion.productType | translate}}</ion-title>
+        <ion-buttons left>
+            <button (click)="onback()" >
+                <ion-icon class="back-button-icon ion-md-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right>
+            <button (click)="onSuitability()" *ngIf="showSuitability()">
+                {{"lead.card.suitability.suitability" | translate}}
+                <ion-icon name="card"></ion-icon>
+            </button>
+            <button (click)="onSelect()" *ngIf="showSelect()">
+                {{"action.select" | translate}}
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="product">
+
+    <ion-row wrap>
+
+        <ion-col width-50 *ngFor="let salesGroupData of finalsalesgroupdata">
+            <ion-card>
+                <ion-item text-wrap class="item-override">
+                    <ion-avatar item-left>
+                        <img [src]="'image/icon/' + appProvider.current.suggestionData.productData.icon">
+                    </ion-avatar>
+                    <h2>{{'lookup.productSalesGroup.' + salesGroupData.salesGroup | translate}}</h2>
+                    <ion-avatar item-right *ngIf="salesGroupData.id && salesGroupData.likeid!='true'">
+                        <ion-icon secondary name="heart"></ion-icon>
+                    </ion-avatar>
+                </ion-item>
+                <img [src]="cordovaProvider.getStoredPath('product/' + appProvider.current.suggestionData.productData.product + '/' + salesGroupData.salesGroup + '/' + salesGroupData.salesGroup + '.jpg')"/>
+                <ion-buttons padding>
+                    <button secondary (click)="onLike(salesGroupData)" *ngIf="!salesGroupData.id">LIKE</button>
+                    <button secondary (click)="onLike(salesGroupData)" *ngIf="salesGroupData.id && salesGroupData.likeid=='true'" >LIKE</button>
+                    <button  secondary (click)="onUnlike(salesGroupData)" *ngIf="salesGroupData.id && salesGroupData.likeid!='true'" >UNLIKE</button>
+                    <button secondary (click)="onLearnMore(salesGroupData)">{{"lead.recommendations.learnMore" | translate}}</button>
+                    <button (click)="onCalculator(salesGroupData)" *ngIf="showCalculator(salesGroupData)">
+                        {{"lead.lending.calculator.calculator" | translate}}
+                        <ion-icon name="calculator"></ion-icon>
+                    </button>
+                </ion-buttons>
+            </ion-card>
+        </ion-col>
+
+    </ion-row>
+
+</ion-content>

@@ -1,0 +1,138 @@
+<ion-header>
+    <ion-navbar primary hideBackButton >
+        <ion-title>{{"message.application" | translate}}</ion-title>
+        <ion-buttons left>
+            <button (click)="onback()" >
+                <ion-icon class="back-button-icon ion-md-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right>
+            <button [disabled]="formInvalid" (click)="onCopayers()">
+                {{"lead.lending.lendingCopayer.lendingCopayers" | translate}}
+                <ion-icon name='add'></ion-icon>
+            </button>
+            <button (click)="onNext(false)">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ng-container *ngIf="lending">
+        <form #lendingForm="ngForm" novalidate [hidden]="onForm(lendingForm)">
+            <ion-card>
+                <ion-item>
+                    <ion-avatar item-left>
+                        <img src="image/icon/contact.svg">
+                    </ion-avatar>
+                    <h2>{{"lead.lending.youAre5Min" | translate}}.</h2>
+                    <p>{{"lead.lending.afterCompleting" | translate}}.</p>
+                </ion-item>
+            </ion-card>
+            <ion-row>
+                <ion-col width-50 no-padding>
+                    <ion-card>
+                        <ion-card-header>
+                            {{"lead.lending.identity" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.customerType" | translate}} *</ion-label>
+                                <ion-select (ionChange)="onCustomerTypeChange()" [(ngModel)]="lending.customerType" name="customerType" #customerType="ngModel" required
+                                            [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let customerType of customerTypeOptions()" [value]="customerType">{{'lookup.customerType.' + customerType | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <p [hidden]="customerType.valid || !customerType.touched" danger padding-left>
+                                {{"message.mandatory" | translate}}
+                            </p>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.productName" | translate}} *</ion-label>
+                                <ion-select (ionChange)="onProductNameChange()" [(ngModel)]="lending.productName" name="productName" #productName="ngModel" required
+                                            [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let productName of productNameOptions() | async" [value]="productName">{{'lookup.productSalesGroupsLending.' + productName | translate}}
+                                    </ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <p [hidden]="productName.valid || !productName.touched" danger padding-left>
+                                {{"message.mandatory" | translate}}
+                            </p>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.loanPurpose" | translate}} *</ion-label>
+                                <ion-select [(ngModel)]="lending.loanPurpose" name="loanPurpose" #productName="ngModel" required [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let loanPurpose of loanPurposeOptions() | async" [value]="loanPurpose">{{'lookup.loanPurpose.' + loanPurpose | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <p [hidden]="productName.valid || !productName.touched" danger padding-left>
+                                {{"message.mandatory" | translate}}
+                            </p>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.education" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="lending.education" name="education" #education="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let education of lookupProvider.educations | async" [value]="education">{{'lookup.education.' + education | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.idDateOfIssue" | translate}}</ion-label>
+                                <ion-datetime [(ngModel)]="lending.idDateOfIssue" name="idDateOfIssue" #idDateOfIssue="ngModel" displayFormat="DD-MM-YYYY" [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.idPlaceOfIssue" | translate}}</ion-label>
+                                <ion-input type="text" [(ngModel)]="lending.idPlaceOfIssue" name="idPlaceOfIssue" #idPlaceOfIssue="ngModel" maxlength="100"></ion-input>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+                <ion-col width-50 no-padding>
+                    <ion-card>
+                        <ion-card-header>
+                            {{"lead.lending.permanentAddress" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentAddressLine1" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.permanentAddressLine1" name="permanentAddressLine1" type="text" maxlength="100" #permanentAddressLine1="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentAddressLine2" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.permanentAddressLine2" name="permanentAddressLine2" type="text" maxlength="100" #permanentAddressLine2="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentAddressLine3" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.permanentAddressLine3" name="permanentAddressLine3" type="text" maxlength="100" #permanentAddressLine3="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentAddressLine4" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.permanentAddressLine4" name="permanentAddressLine4" type="text" maxlength="100" #permanentAddressLine4="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentCity" | translate}}</ion-label>
+                                <!-- <ion-input [(ngModel)]="lending.permanentCity" name="city" type="text" maxlength="30" #city="ngModel"></ion-input> -->
+                                <ion-select [(ngModel)]="lending.permanentCity" name="city"   #city="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let city of lookupProvider.listOfCity | async" [value]="city">{{'lookup.listOfCity.' + city | translate}}</ion-option>
+                            </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentState" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.permanentState" name="state" type="text" maxlength="30" #state="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.permanentZipCode" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.permanentZipCode" name="permanentZipCode" type="text" maxlength="10" #permanentZipCode="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.lending.country" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="lending.country" name="country" type="text" maxlength="30" #country="ngModel"></ion-input>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ng-container>
+    <print *ngIf="appProvider.debug" name="lending" [value]="lending"></print>
+</ion-content>
+

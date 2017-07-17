@@ -1,0 +1,152 @@
+<ion-header>
+    <ion-navbar primary hideBackButton>
+        <ion-title text-center>{{"lead.currentAccount.customerinformation" | translate}}</ion-title>
+        <ion-buttons left>
+            <button (click)="onback()" >
+                <ion-icon class="back-button-icon ion-md-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right>
+            <button [disabled]="nextbutton==false"   (click)="onSave()">
+                {{"action.next" | translate}}
+                <ion-icon  name='arrow-forward'></ion-icon>
+            </button>
+            <button [disabled]="validatebutton==false" (click)="onValidate()">
+                {{"action.validate" | translate}}
+                <ion-icon name='checkmark-circle-outline'></ion-icon>
+            </button>
+             
+               <!-- <button [disabled]="nextbutton==false" (click)="onNext()" >
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button> -->
+            
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="customer-applications">
+    <ng-container *ngIf="currentAccount">
+        <form #currentAccountForm="ngForm" novalidate (ngSubmit)="onSave()" [hidden]="onForm(currentAccountForm)">
+            <ion-card>
+                <ion-item>
+                    <ion-avatar item-left>
+                        <img src="image/icon/contact.svg">
+                    </ion-avatar>
+                    <h2>{{"lead.currentAccount.youAre5Min" | translate}}.</h2>
+                    <p>{{"lead.currentAccount.afterCompleting" | translate}}.</p>
+                </ion-item>
+            </ion-card>
+            <ion-row>
+                <ion-col width-50 no-padding>
+                    <ion-card>
+                        <ion-card-header>
+                            {{"lead.currentAccount.information" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.fullName" | translate}}</ion-label>
+                                <ion-input [value]="currentAccount.fullName" disabled></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"message.email" | translate }}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.email" name="email" type="text" maxlength="100"    #email="ngModel"></ion-input>
+                            </ion-item>
+                             <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.phonenumber" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.phone" name="phone" type="text" maxlength="35"    #phone="ngModel"></ion-input>
+                            </ion-item>
+                             <!-- <ion-item>
+                                <ion-label stacked>{{"customer.dateOfBirth" | translate}}</ion-label>
+                                <ion-datetime [(ngModel)]="currentAccount.dateOfBirth" name="dateOfBirth" #dateOfBirth="ngModel" displayFormat="DD-MM-YYYY"
+                                              [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item> -->
+                            <ion-item>
+                                <ion-label stacked>{{"customer.gender" | translate}}</ion-label>
+                                
+
+                                <ion-select [(ngModel)]="currentAccount.gender" name="gender"   #gender="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let gen of lookupProvider.genders | async" [value]="gen">{{'lookup.gender.' + gen | translate}}</ion-option>
+                                
+                            </ion-select>
+                            </ion-item>
+
+                             <!-- <ion-item>
+                                <ion-label stacked>{{"customer.nationality" | translate}}</ion-label>
+                              
+
+                                <ion-select [(ngModel)]="currentAccount.countryOfNationality" name="nationality"   #nationality="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let city of lookupProvider.listOfCity | async" [value]="city">{{'lookup.listOfCity.' + city | translate}}</ion-option>
+                                
+                            </ion-select>
+                            </ion-item> -->
+                            <!-- <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.placeOfBirth" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.placeOfBirth" name="placeOfBirth" #placeOfBirth="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let place of lookupProvider.placesOfBirths | async" [value]="place">{{'lookup.placesOfBirth.' + place | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>  -->
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+                <ion-col width-50 no-padding>
+                    <ion-card>
+                        <ion-card-header>
+                            {{"lead.currentAccount.identity" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                             <!-- <ion-item>
+                                <ion-label stacked>{{"registration.username" | translate }}</ion-label>
+                                <ion-input [value]="currentAccount.userName" disabled></ion-input>
+                            </ion-item> -->
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idNumber" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.nationalId" name="nationalId" type="text" maxlength="16"
+                                              #nationalId="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idType" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.idType" name="idType" #idType="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let id of lookupProvider.idTypesCurrent | async" [value]="id">{{'lookup.idTypesCurrent.' + id | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idDateOfIssue" | translate}} *</ion-label>
+                                <ion-datetime [(ngModel)]="currentAccount.idDateOfIssue" name="idDateOfIssue" #idDateOfIssue="ngModel" displayFormat="DD-MM-YYYY"
+                                              [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idPlaceOfIssue" | translate}}</ion-label>
+                                <ion-input type="text" [(ngModel)]="currentAccount.idPlaceOfIssue" name="idPlaceOfIssue" #idPlaceOfIssue="ngModel" maxlength="100"></ion-input>
+                            </ion-item>
+                           <!--  <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idDateOfIssue" | translate}}</ion-label>
+                                <ion-datetime [(ngModel)]="currentAccount.idDateOfIssue" name="idDateOfIssue" #idDateOfIssue="ngModel" displayFormat="DD-MM-YYYY"
+                                              [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idDateOfExpire" | translate}}</ion-label>
+                                <ion-datetime [(ngModel)]="currentAccount.idDateOfExpire" name="idDateOfExpire" #idDateOfExpire="ngModel" displayFormat="DD-MM-YYYY"
+                                              [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item>
+                             <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idPlaceOfIssue" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.dPlaceOfIssue" name="dPlaceOfIssue" #dPlaceOfIssue="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let place of lookupProvider.placesOfBirths | async" [value]="place">{{'lookup.placesOfBirth.' + place | translate}}</ion-option>
+                                </ion-select>
+                                </ion-item> -->
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ng-container>
+    <print *ngIf="appProvider.debug" name="currentAccount" [value]="currentAccount"></print>
+</ion-content>

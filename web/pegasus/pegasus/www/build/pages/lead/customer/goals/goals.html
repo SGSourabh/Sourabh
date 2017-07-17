@@ -1,0 +1,143 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title text-center>{{'lead.goals.goals' | translate}}</ion-title>
+        <!-- <ion-buttons right *ngIf="goals && goals.list.length > 0">
+            <button (click)="showDetails = !showDetails">{{'lead.goals.goal.goalDetails' | translate}}</button>
+        </ion-buttons> -->
+        <!-- <ion-buttons right *ngIf="goals && goals.list.length > 0">
+            <ion-toggle secondary [(ngModel)]="showDetails"></ion-toggle>
+        </ion-buttons> -->
+        <ion-buttons right>
+            <button (click)="onSave(false)">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+            <button (click)="onSave(true)">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+
+    </ion-navbar>
+     <ion-row wrap primary>
+          <ion-col>
+             <button *ngIf="activebuttongoal==true" ion-button  (click)="hideGoalsDetails()"   style="width: 100%;background-color: #F89420" left>{{'lead.goals.goals' | translate}}</button>
+             <button  *ngIf="activebuttongoal==false" ion-button  (click)="hideGoalsDetails()"   style="width: 100%" left>{{'lead.goals.goals' | translate}}</button>
+         </ion-col>
+         <ion-col>
+             <button *ngIf="activebuttongoaldetails==true" ion-button   (click)="showGoalsDetails()"  style="width: 100%;background-color: #F89420" right>{{'lead.goals.goal.goalDetails' | translate}}</button>
+             <button  *ngIf="activebuttongoaldetails==false" ion-button   (click)="showGoalsDetails()"  style="width: 100%" right>{{'lead.goals.goal.goalDetails' | translate}}</button>
+        </ion-col>
+     </ion-row>
+</ion-header>
+<ion-content class="customer-goals">
+    <ng-container *ngIf="!showDetails">
+        <ion-card>
+            <ion-item>
+                <ion-avatar item-left>
+                    <img src="image/icon/bft_piggy.svg">
+                </ion-avatar>
+                <h2>{{'lead.goals.goal.whatGoalsDOYouWantToAchieve' | translate}}</h2>
+            </ion-item>
+        </ion-card>
+        <ion-card>
+            <ion-card-content padding>
+                <ion-row wrap>
+                    <ion-col width-20 *ngFor="let goalState of goalsState" class="choice-wrap choice-override" [class.active]="goalState.active" (click)="toggleActive(goalState)">
+                        <div class="btn-choice">
+                            <ion-icon [class]="goalState.goalData.icon"></ion-icon>
+                        </div>
+                        <span class="desc">{{'lookup.goals.' + goalState.goalData.goal | translate}}</span>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+    <!-- The Goal Details -->
+    <ng-container *ngIf="showDetails">
+        <ion-card *ngFor="let goal of goals.list">
+            <ion-card-header>
+                {{'lookup.goals.' + goal.name | translate}}
+            </ion-card-header>
+            <ion-card-content>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'needs.goals.goal.priority' | translate}}</ion-label>
+                            <ion-select (ionChange)="onPriorityChange(goal)" [(ngModel)]="goal.priority" name="priority" #priority="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let goal of goals.list; let i = index" [value]="i + 1">{{i + 1}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'lead.goals.goal.duration' | translate}} ({{"lead.lending.calculator.month" | translate}})</ion-label>
+                            <ion-input [(ngModel)]="goal.duration" type="number" name="duration" integer integerMin="0" integerMax="9999"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'lead.goals.goal.available' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [(ngModel)]="goal.available" name="available" currency maxlength="19"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <ion-label stacked>{{'lead.goals.goal.needed' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [(ngModel)]="goal.needed" name="needed" currency maxlength="19"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-item>
+                    <ion-row text-center>
+                        <ion-col>{{'lead.goals.goal.personal' | translate}}</ion-col>
+                        <ion-col>{{'lead.goals.goal.business' | translate}}</ion-col>
+                        <ion-col>{{'lead.goals.goal.lending' | translate}}</ion-col>
+                        <ion-col>{{'lead.goals.goal.saving' | translate}}</ion-col>
+                    </ion-row>
+                    <ion-row text-center>
+                        <ion-col>
+                            <div class="choice-wrap small" [class.active]="goal.personal" (click)="goal.personal = !goal.personal">
+                                <div class="btn-choice">
+                                    <ion-icon name="checkmark"></ion-icon>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col>
+                            <div class="choice-wrap small" [class.active]="goal.business" (click)="goal.business = !goal.business">
+                                <div class="btn-choice">
+                                    <ion-icon name="checkmark"></ion-icon>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col>
+                            <div class="choice-wrap small" [class.active]="goal.lending" (click)="goal.lending = !goal.lending">
+                                <div class="btn-choice">
+                                    <ion-icon name="checkmark"></ion-icon>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col>
+                            <div class="choice-wrap small" [class.active]="goal.saving" (click)="goal.saving = !goal.saving">
+                                <div class="btn-choice">
+                                    <ion-icon name="checkmark"></ion-icon>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{'needs.goals.goal.note' | translate}}</ion-label>
+                    <ion-input [(ngModel)]="goal.note" type="text" name="note" #note="ngModel" maxlength="100"></ion-input>
+                </ion-item>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+    <print *ngIf="appProvider.debug" name="goals" [value]="goals"></print>
+</ion-content>

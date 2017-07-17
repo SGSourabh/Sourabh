@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-title>
+            {{"action.add" | translate}}
+        </ion-title>
+        <ion-buttons end>
+            <button (click)="Dismiss()">
+                {{"action.close" | translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="customer-applications">
+    <ion-row wrap *ngIf="userDesignation">
+        <ion-col width-25 no-padding *ngFor="let user of userDesignation">
+            <ion-card>
+                <ion-card-header>
+                    {{user.fullName}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col ion-item>
+                            <ion-label stacked>{{"message.user_id" | translate}}</ion-label>
+                            <ion-input [value]="user.login"  disabled></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col ion-item>
+                            <ion-label stacked>{{"message.branch_id" | translate}}</ion-label>
+                            <ion-input [value]="user.branchId"  disabled></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col ion-item>
+                            <ion-label stacked>{{"message.email" | translate}}</ion-label>
+                            <ion-input [value]="user.email"  disabled></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col ion-item>
+                            <ion-label stacked>{{"message.designation" | translate}}</ion-label>
+                            <ion-input [value]="user.designation"  disabled></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-buttons padding-top>
+                      <button secondary (click)="onSelect(user)">{{"action.select" | translate}}</button>
+                    </ion-buttons>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    
+
+</ion-content>

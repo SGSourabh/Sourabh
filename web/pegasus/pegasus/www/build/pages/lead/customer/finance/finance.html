@@ -1,0 +1,857 @@
+
+
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title text-center>{{'lead.fhc.financial' | translate}}</ion-title>
+        <!--  <ion-buttons right>
+            <button (click)="section = !section">{{"lead.fhc." + (!section ? "individual.individual" : "business.business") | translate}}</button>
+            </ion-buttons>
+            <ion-buttons right>
+            <ion-toggle secondary [(ngModel)]="section"></ion-toggle>
+            </ion-buttons> -->
+        <ion-buttons right>
+            <button (click)="onSave(false)">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+            <button (click)="onSave(true)">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-row wrap primary>
+        <ion-col>
+            <button *ngIf="activebuttonindu==true" ion-button  (click)="hideIndividual()"   style="width: 100%;background-color: #F89420" left> {{'lead.fhc.individual.individual'| translate}}</button>
+            <button  *ngIf="activebuttonindu==false" ion-button  (click)="hideIndividual()"   style="width: 100%" left>{{'lead.fhc.individual.individual'| translate}}</button>
+        </ion-col>
+        <ion-col>
+            <button ion-button *ngIf="activebuttonbuss==true" (click)="showBusiness()"  style="width: 100%;background-color: #F89420"  right>{{'lead.fhc.business.business'| translate}}</button>
+            <button ion-button *ngIf="activebuttonbuss==false" (click)="showBusiness()"  style="width: 100%" right>{{'lead.fhc.business.business'| translate}}</button>
+        </ion-col>
+    </ion-row>
+</ion-header>
+<ion-content class="customer-finance">
+    <ion-card>
+        <ion-card-content>
+            <ion-item>
+                <ion-avatar item-left>
+                    <img src="image/icon/bft_stats-up.svg">
+                </ion-avatar>
+                <h2>{{'lead.fhc.getMoreOutOfYourAccount'| translate}}</h2>
+                <p>{{'lead.fhc.zeroAccountFees'| translate}}</p>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+    <div *ngIf="fhc && !section && fhc.personal">
+        <div style="width: 50%; float: left;" >
+            <ion-row wrap >
+                <ion-col width-100 no-padding>
+                    <ion-card class="controll_question">
+                        <ion-card-header>
+                            {{'lead.fhc.individual.banking.banking'| translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-row center>
+                                <ion-col>
+                                    {{'lead.fhc.individual.banking.showQuestions' | translate}}
+                                </ion-col>
+                                <ion-col text-right>
+                                    <div class="finance-choice-wrap alt small" [class.active]="showBanking" (click)="toggleShow('showBanking')">
+                                    <div class="btn-choice">
+                                        <ion-icon name="checkmark"></ion-icon>
+                                    </div>
+        </div>
+        <div class="finance-choice-wrap alt small" [class.active]="!showBanking" (click)="toggleShow('showBanking')">
+        <div class="btn-choice">
+        <ion-icon name="close"></ion-icon>
+        </div>
+    </div>
+    </ion-col>
+    </ion-row>
+    </ion-card-content>
+    </ion-card>
+    </ion-col>
+    </ion-row> 
+    <ion-row wrap >
+        <ion-col width-100 no-padding>
+            <ion-card class="controll_question">
+                <ion-card-header>
+                    {{'lead.fhc.individual.lending.lending'| translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row center>
+                        <ion-col>
+                            {{'lead.fhc.individual.lending.showQuestions' | translate}}
+                        </ion-col>
+                        <ion-col text-right>
+                            <div class="finance-choice-wrap alt small" [class.active]="showLending" (click)="toggleShow('showLending')">
+                            <div class="btn-choice">
+                                <ion-icon name="checkmark"></ion-icon>
+                            </div>
+                            </div>
+                            <div class="finance-choice-wrap alt small" [class.active]="!showLending" (click)="toggleShow('showLending')">
+                            <div class="btn-choice">
+                                <ion-icon name="close"></ion-icon>
+                            </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <ion-row wrap >
+        <ion-col width-100 no-padding>
+            <ion-card class="controll_question">
+                <ion-card-header>
+                    {{'lead.fhc.individual.protect.protect'| translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row center>
+                        <ion-col width-80>
+                            {{'lead.fhc.individual.protect.showQuestions' | translate}}
+                        </ion-col>
+                        <ion-col text-right>
+                            <div class="finance-choice-wrap alt small" [class.active]="showProtect" (click)="toggleShow('showProtect')">
+                            <div class="btn-choice">
+                                <ion-icon name="checkmark"></ion-icon>
+                            </div>
+                            </div>
+                            <div class="finance-choice-wrap alt small" [class.active]="!showProtect" (click)="toggleShow('showProtect')">
+                            <div class="btn-choice">
+                                <ion-icon name="close"></ion-icon>
+                            </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <ion-row wrap >
+        <ion-col width-100 no-padding>
+            <ion-card class="controll_question">
+                <ion-card-header>
+                    {{'lead.fhc.individual.saving.savingAndInvest'| translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row center>
+                        <ion-col width-80>
+                            {{'lead.fhc.individual.saving.showQuestions' | translate}}
+                        </ion-col>
+                        <ion-col text-right>
+                            <div class="finance-choice-wrap alt small" [class.active]="showSaving" (click)="toggleShow('showSaving')">
+                            <div class="btn-choice">
+                                <ion-icon name="checkmark"></ion-icon>
+                            </div>
+                            </div>
+                            <div class="finance-choice-wrap alt small" [class.active]="!showSaving" (click)="toggleShow('showSaving')">
+                            <div class="btn-choice">
+                                <ion-icon name="close"></ion-icon>
+                            </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    </div>
+    <div style="width: 50%; float: right;" >
+        <ion-card>
+            <ion-card-content *ngIf="fhc.personal.banking && showBanking">
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.banking.where' | translate}}
+                </ion-item-divider>
+                <ion-row >
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.cashFlowBank" (click)="fhc.personal.banking.cashFlowBank =! fhc.personal.banking.cashFlowBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vib_logo"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.cashFlowBank' | translate}}</span>
+                    </ion-col>
+                    <!-- <ion-col class="choice-wrap" [class.active]="fhc.personal.banking.cashFlowOtherBank"
+                    (click)="fhc.personal.banking.cashFlowOtherBank =! fhc.personal.banking.cashFlowOtherBank"> -->
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.cashFlowOtherBank"
+                    (click)="presentActionSheet('personalbanking')">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vault"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.cashFlowOtherBank' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.banking.transactionHowQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.transactBranches"
+                    (click)="fhc.personal.banking.transactBranches =! fhc.personal.banking.transactBranches">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-branch"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.transactBranches' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.transactInternetBanking"
+                    (click)="fhc.personal.banking.transactInternetBanking =! fhc.personal.banking.transactInternetBanking">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-internet_banking"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.transactInternetBanking' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.transactSmartphone"
+                    (click)="fhc.personal.banking.transactSmartphone =! fhc.personal.banking.transactSmartphone">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-smartphone"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.transactSmartphone' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.transactPhone" (click)="fhc.personal.banking.transactPhone =! fhc.personal.banking.transactPhone">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-telephone"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.transactPhone' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.banking.paymodeQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.paymodeCreditCard"
+                    (click)="fhc.personal.banking.paymodeCreditCard =! fhc.personal.banking.paymodeCreditCard">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-credit_card"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.paymodeCreditCard' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.paymodeCash" (click)="fhc.personal.banking.paymodeCash =! fhc.personal.banking.paymodeCash">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-cash"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.paymodeCash' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.paymodeBankTransfer"
+                    (click)="fhc.personal.banking.paymodeBankTransfer =! fhc.personal.banking.paymodeBankTransfer">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-bank_transfer"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.paymodeBankTransfer' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.banking.paymodeOther" (click)="fhc.personal.banking.paymodeOther =! fhc.personal.banking.paymodeOther">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-help"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.banking.paymodeOther' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.personal.banking"></print>
+            </ion-card-content>
+            <ion-card-content *ngIf="fhc.personal.lending && showLending">
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.lending.where' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.lenderBank" (click)="fhc.personal.lending.lenderBank =! fhc.personal.lending.lenderBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vib_logo"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.lending.lenderBank' | translate}}</span>
+                    </ion-col>
+                   <!--  <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.lenderOther" (click)="fhc.personal.lending.lenderOther =! fhc.personal.lending.lenderOther"> -->
+                     <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.lenderOther" (click)="presentActionSheet('personallending')">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vault"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.lending.lenderOther' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.lending.purpose' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.purposeMortgage"
+                    (click)="fhc.personal.lending.purposeMortgage =! fhc.personal.lending.purposeMortgage">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-private_house"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.lending.purposeMortgage' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.purposeAuto" (click)="fhc.personal.lending.purposeAuto =! fhc.personal.lending.purposeAuto">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-car"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.lending.purposeAuto' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.purposePersonal"
+                    (click)="fhc.personal.lending.purposePersonal =! fhc.personal.lending.purposePersonal">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-household_items"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.lending.purposePersonal' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.purposeCreditCard"
+                    (click)="fhc.personal.lending.purposeCreditCard =! fhc.personal.lending.purposeCreditCard">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-credit_card"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.individual.lending.purposeCreditCard' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.lending.interestPayable' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.interest === 'none'" (click)="fhc.personal.lending.interest = 'none'">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.none' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.interest === 'low'" (click)="fhc.personal.lending.interest = 'low'">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-stats_down"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.low' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.interest === 'medium'" (click)="fhc.personal.lending.interest = 'medium'">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-stats_unchanged"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.medium' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.interest === 'high'" (click)="fhc.personal.lending.interest = 'high'">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-stats_up"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.high' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.lending.creditIntentQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.lending.creditIntent" (click)="fhc.personal.lending.creditIntent = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.lending.creditIntent" (click)="fhc.personal.lending.creditIntent = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.personal.lending"></print>
+            </ion-card-content>
+            <ion-card-content *ngIf="fhc.personal.protect && showProtect">
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.protect.hospitilisation' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.protect.hospitilisation" (click)="fhc.personal.protect.hospitilisation = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.protect.hospitilisation" (click)="fhc.personal.protect.hospitilisation = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.protect.longevity' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.protect.longevity" (click)="fhc.personal.protect.longevity = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.protect.longevity" (click)="fhc.personal.protect.longevity = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.protect.disability' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.protect.disability" (click)="fhc.personal.protect.disability = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.protect.disability" (click)="fhc.personal.protect.disability = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.protect.criticalIllness' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.protect.criticalIllness" (click)="fhc.personal.protect.criticalIllness = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.protect.criticalIllness" (click)="fhc.personal.protect.criticalIllness = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.protect.death' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.protect.death" (click)="fhc.personal.protect.death = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.protect.death" (click)="fhc.personal.protect.death = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.protect.manageRisksQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.protect.manageRisks" (click)="fhc.personal.protect.manageRisks = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.protect.manageRisks" (click)="fhc.personal.protect.manageRisks = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.personal.protect"></print>
+            </ion-card-content>
+            <ion-card-content *ngIf="fhc.personal.saving && showSaving">
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.saving.saveInvestQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.saving.saveInvest" (click)="fhc.personal.saving.saveInvest = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.saving.saveInvest" (click)="fhc.personal.saving.saveInvest = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.saving.fundChildrenQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.saving.fundChildren" (click)="fhc.personal.saving.fundChildren = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.saving.fundChildren" (click)="fhc.personal.saving.fundChildren = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.saving.saveSufficientQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.saving.saveSufficient" (click)="fhc.personal.saving.saveSufficient = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.saving.saveSufficient" (click)="fhc.personal.saving.saveSufficient = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.saving.saveAndBenefitQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.saving.saveAndBenefit" (click)="fhc.personal.saving.saveAndBenefit = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.saving.saveAndBenefit" (click)="fhc.personal.saving.saveAndBenefit = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.individual.saving.setupInvestmentQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.personal.saving.setupInvestment" (click)="fhc.personal.saving.setupInvestment = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.personal.saving.setupInvestment" (click)="fhc.personal.saving.setupInvestment = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.personal.saving"></print>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    </div>
+    <div   *ngIf="fhc && section && fhc.business">
+        <div style="width: 50%;float: left;">
+            <ion-row wrap>
+                <ion-col width-100 no-padding>
+                    <ion-card class="controll_question">
+                        <ion-card-header>
+                            {{'lead.fhc.business.banking.banking'| translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-row center>
+                                <ion-col width-80>
+                                    {{'lead.fhc.business.banking.showQuestions' | translate}}
+                                </ion-col>
+                                <ion-col text-right>
+                                    <div class="finance-choice-wrap alt small" [class.active]="showBusinessBanking" (click)="toggleShow('showBusinessBanking')">
+                                    <div class="btn-choice">
+                                        <ion-icon name="checkmark"></ion-icon>
+                                    </div>
+        </div>
+        <div class="finance-choice-wrap alt small" [class.active]="!showBusinessBanking" (click)="toggleShow('showBusinessBanking')">
+        <div class="btn-choice">
+        <ion-icon name="close"></ion-icon>
+        </div>
+    </div>
+    </ion-col>
+    </ion-row>
+    </ion-card-content>
+    </ion-card>
+    </ion-col>
+    </ion-row>
+    <ion-row wrap>
+        <ion-col width-100 no-padding>
+            <ion-card class="controll_question">
+                <ion-card-header>
+                    {{'lead.fhc.business.lending.lending'| translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row center>
+                        <ion-col width-80>
+                            {{'lead.fhc.business.lending.showQuestions' | translate}}
+                        </ion-col>
+                        <ion-col text-right>
+                            <div class="finance-choice-wrap alt small" [class.active]="showBusinessLending" (click)="toggleShow('showBusinessLending')">
+                            <div class="btn-choice">
+                                <ion-icon name="checkmark"></ion-icon>
+                            </div>
+                            </div>
+                            <div class="finance-choice-wrap alt small" [class.active]="!showBusinessLending" (click)="toggleShow('showBusinessLending')">
+                            <div class="btn-choice">
+                                <ion-icon name="close"></ion-icon>
+                            </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <ion-row wrap>
+        <ion-col width-100 no-padding>
+            <ion-card class="controll_question">
+                <ion-card-header>
+                    {{'lead.fhc.business.protect.protect'| translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row center>
+                        <ion-col width-80>
+                            {{'lead.fhc.business.protect.showQuestions' | translate}}
+                        </ion-col>
+                        <ion-col text-right>
+                            <div class="finance-choice-wrap alt small" [class.active]="showBusinessProtect" (click)="toggleShow('showBusinessProtect')">
+                            <div class="btn-choice">
+                                <ion-icon name="checkmark"></ion-icon>
+                            </div>
+                            </div>
+                            <div class="finance-choice-wrap alt small" [class.active]="!showBusinessProtect" (click)="toggleShow('showBusinessProtect')">
+                            <div class="btn-choice">
+                                <ion-icon name="close"></ion-icon>
+                            </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    </div>
+    <div style="width: 50%;float: right;">
+        <ion-card *ngIf="fhc.business.banking && showBusinessBanking">
+            <ion-card-content >
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.banking.where' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.cashFlowBank" (click)="fhc.business.banking.cashFlowBank =! fhc.business.banking.cashFlowBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vib_logo"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.cashFlowBank' | translate}}</span>
+                    </ion-col>
+                   <!--  <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.cashFlowOtherBank"
+                    (click)="fhc.business.banking.cashFlowOtherBank =! fhc.business.banking.cashFlowOtherBank"> -->
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.cashFlowOtherBank"
+                    (click)="presentActionSheet('businessbanking')">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vault"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.cashFlowOtherBank' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.banking.transactionHowQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.transactBranches"
+                    (click)="fhc.business.banking.transactBranches =! fhc.business.banking.transactBranches">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-branch"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.transactBranches' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.transactInternetBanking"
+                    (click)="fhc.business.banking.transactInternetBanking =! fhc.business.banking.transactInternetBanking">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-internet_banking"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.transactInternetBanking' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.transactSmartphone"
+                    (click)="fhc.business.banking.transactSmartphone =! fhc.business.banking.transactSmartphone">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-smartphone"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.transactSmartphone' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.transactPhone" (click)="fhc.business.banking.transactPhone =! fhc.business.banking.transactPhone">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-telephone"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.transactPhone' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.banking.paymentReceiveQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.payReceiveCheque"
+                    (click)="fhc.business.banking.payReceiveCheque =! fhc.business.banking.payReceiveCheque">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-cheque"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.payReceiveCheque' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.payReceiveCash"
+                    (click)="fhc.business.banking.payReceiveCash =! fhc.business.banking.payReceiveCash">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-cash"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.payReceiveCash' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.payReceiveBank"
+                    (click)="fhc.business.banking.payReceiveBank =! fhc.business.banking.payReceiveBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vib_logo"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.payReceiveBank' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.payReceiveOtherBank"
+                    (click)="fhc.business.banking.payReceiveOtherBank =! fhc.business.banking.payReceiveOtherBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vault"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.payReceiveOtherBank' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.banking.paymodeQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.paymodeCash" (click)="fhc.business.banking.paymodeCash =! fhc.business.banking.paymodeCash">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-cash"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.paymodeCash' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.paymodeBank" (click)="fhc.business.banking.paymodeBank =! fhc.business.banking.paymodeBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vib_logo"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.paymodeBank' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.banking.paymodeOtherBank"
+                    (click)="fhc.business.banking.paymodeOtherBank =! fhc.business.banking.paymodeOtherBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vault"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.banking.paymodeOtherBank' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.business.banking"></print>
+            </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="fhc.business.lending && showBusinessLending">
+            <ion-card-content >
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.lending.where' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.lenderBank" (click)="fhc.business.lending.lenderBank =! fhc.business.lending.lenderBank">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vib_logo"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.lending.lenderBank' | translate}}</span>
+                    </ion-col>
+                    <!-- </ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.lenderOther" (click)="fhc.business.lending.lenderOther =! fhc.business.lending.lenderOther"> -->
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.lenderOther" (click)="presentActionSheet('businesslending')">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-vault"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.lending.lenderOther' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.lending.purpose' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.purposeFixedInvAssets"
+                    (click)="fhc.business.lending.purposeFixedInvAssets =! fhc.business.lending.purposeFixedInvAssets">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-invest_financial"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.lending.purposeFixedInvAssets' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.purposeShortWorkingCapital"
+                    (click)="fhc.business.lending.purposeShortWorkingCapital =! fhc.business.lending.purposeShortWorkingCapital">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-short_term_working_capital_loan"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.lending.purposeShortWorkingCapital' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.purposeBusinessAuto"
+                    (click)="fhc.business.lending.purposeBusinessAuto =! fhc.business.lending.purposeBusinessAuto">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-car"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.lending.purposeBusinessAuto' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.lending.interestPayable' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.interest === 'none'" (click)="fhc.business.lending.interest = 'none'">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.none' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.interest === 'low'" (click)="fhc.business.lending.interest = 'low'">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-stats_down"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.low' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.interest === 'medium'" (click)="fhc.business.lending.interest = 'medium'">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-stats_unchanged"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.medium' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.lending.interest === 'high'" (click)="fhc.business.lending.interest = 'high'">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-stats_up"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lookup.interest.high' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.business.lending "></print>
+            </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="fhc.business.protect && showBusinessProtect">
+            <ion-card-content >
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.protect.buyInsurance' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.protect.buyInsurance" (click)="fhc.business.protect.buyInsurance = true">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                    </div>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="!fhc.business.protect.buyInsurance" (click)="fhc.business.protect.buyInsurance = false">
+                    <div class="btn-choice">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-item-divider margin-bottom text-wrap>
+                    {{'lead.fhc.business.protect.itemsToProtectQuestion' | translate}}
+                </ion-item-divider>
+                <ion-row>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.protect.protectIncome" (click)="fhc.business.protect.protectIncome =! fhc.business.protect.protectIncome">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-invest_financial"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.protect.protectIncome' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.protect.protectInsuredPerson"
+                    (click)="fhc.business.protect.protectInsuredPerson =! fhc.business.protect.protectInsuredPerson">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-avatar"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.protect.protectInsuredPerson' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.protect.protectBusinessAssets"
+                    (click)="fhc.business.protect.protectBusinessAssets =! fhc.business.protect.protectBusinessAssets">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-assests"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.protect.protectBusinessAssets' | translate}}</span>
+                    </ion-col>
+                    <ion-col class="finance-choice-wrap" [class.active]="fhc.business.protect.protectOther" (click)="fhc.business.protect.protectOther =! fhc.business.protect.protectOther">
+                    <div class="btn-choice">
+                        <ion-icon class="icon-help"></ion-icon>
+                    </div>
+                    <span class="desc">{{'lead.fhc.business.protect.protectOther' | translate}}</span>
+                    </ion-col>
+                </ion-row>
+                <print *ngIf="appProvider.debug" [value]="fhc.business.protect"></print>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    </div>
+</ion-content>
+

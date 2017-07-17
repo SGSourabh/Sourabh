@@ -1,0 +1,69 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{'lookup.productSalesGroup.' + appProvider.current.salesGroupData.salesGroup | translate}} {{"lead.card.calculator.calculator" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onExport()">
+                {{"action.exportDocument" | translate}}
+                <ion-icon name='download'></ion-icon>
+            </button>
+            <button (click)="onEmail()">
+                {{"action.emailDocument" | translate}}
+                <ion-icon name='mail'></ion-icon>
+            </button>
+             <button (click)="onClose()">
+                {{'action.close'| translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-row wrap>
+        <ion-col width-33 no-padding *ngFor="let model of models">
+            <ion-card>
+                <ion-card-header>
+                    {{"lead.card.calculator." + model.data.category | translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.card.calculator.monthlySpending" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                                <ion-input [(ngModel)]="model.spending" currency maxlength="19">
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-66 no-padding>
+            <ion-card>
+                <ion-item>
+                    <ion-avatar item-left>
+                        <img src="image/icon/bft_card.svg">
+                    </ion-avatar>
+                    <h2>{{"lead.card.calculator.total" | translate}}</h2>
+                </ion-item>
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.card.calculator.monthlyCashback" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                                <ion-input [value]="calculatedTotalMonthlyCashback() | number:'1.2-2'" type="text" readonly>
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.card.calculator.yearlyCashback" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                                <ion-input [value]="calculatedTotalYearlyCashback() | number:'1.2-2'" type="text" readonly>
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>

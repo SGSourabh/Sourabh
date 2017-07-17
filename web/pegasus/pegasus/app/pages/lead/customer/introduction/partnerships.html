@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"lead.introduction.partnerships" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onNext()">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="introduction-partnerships" [style.background]="'url(' + cordovaProvider.getStoredPath('introduction/partnerships.jpg') + ')'">
+    <ion-card class="card-override">
+        <ion-card-header>
+            <div class="divider">
+                <div><span></span><span></span><span></span></div>
+            </div>
+            <ion-row bottom>
+                <ion-col width-66>
+                    <h2> {{"lead.introduction.partnerships" | translate}}</h2>
+                </ion-col>
+                <ion-col width-33 text-right>
+                    <img src="image/logo.svg">
+                </ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content padding-top>
+            <p>
+                {{"lead.introduction.partnership" | translate}}.
+            </p>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

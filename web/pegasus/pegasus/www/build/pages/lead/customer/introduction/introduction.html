@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"lead.introduction.introduction" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onSkip()">
+                {{"action.skip" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+            <button (click)="onNext()">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="introduction-intro" [style.background]="'url(' + cordovaProvider.getStoredPath('introduction/intro.jpg') + ')'">
+    {{path}}
+    <ion-card class="card-override">
+        <ion-card-header>
+            <div class="divider">
+                <div><span></span><span></span><span></span></div>
+            </div>
+            <ion-row bottom>
+                <ion-col width-66>
+                    <h2>{{"lead.introduction.introduction" | translate}}</h2>
+                </ion-col>
+                <ion-col width-33 text-right>
+                    <img src="image/logo.svg">
+                </ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content padding-top>
+            <p>
+                <strong>{{"lead.introduction.vib" | translate}}</strong> {{"lead.introduction.stats" | translate}}.
+            </p>
+            <p>
+                {{"lead.introduction.mission" | translate}}.
+            </p>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

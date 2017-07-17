@@ -1,0 +1,54 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"calendar.calendar" | translate}}</ion-title>
+        <ion-buttons end>
+            <button (click)="onAdd()">
+                {{"action.create" | translate}}
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content padding class="calendar">
+    <ion-card class="table-list">
+        <ion-card-header>
+            <ion-row class="table-list-header">
+                <!-- <ion-col width-10>{{"calendar.firstName" | translate}}</ion-col> -->
+                 <!-- <ion-col width-10>{{"calendar.lastName" | translate}}</ion-col> -->
+                <ion-col width-25>{{"calendar.description" | translate}}</ion-col>
+                <ion-col width-15>{{"calendar.startDate" | translate}}</ion-col>
+                <ion-col width-15>{{"calendar.startTime" | translate}}</ion-col>
+                <ion-col width-15>{{"calendar.endDate" | translate}}</ion-col>
+                <ion-col width-15>{{"calendar.endTime" | translate}}</ion-col>
+                <ion-col width-15>{{"calendar.location" | translate}}</ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <!-- <ion-row class="high-row" center>
+                    <ion-col>
+                        <h3>{{group[0]}}</h3></ion-col>
+                </ion-row> -->
+                <ion-item-sliding *ngFor="let appointment of appointments" >
+                    <ion-item text-wrap  (click)="onAppointment(appointment)">
+                        <ion-row responsive-lg class="table-list-content">
+                            <!-- <ion-col width-10>{{appointment.name}}</ion-col>
+                            <ion-col width-10>{{appointment.surname}}</ion-col> -->
+                            <ion-col width-25>{{appointment.subject}}</ion-col>
+                            <ion-col width-15>{{appointment.start| dateMomentFormat: 'DD-MM-YYYY'}}</ion-col>
+                            <ion-col width-15>{{appointment.start| dateMomentFormat: 'HH:mm'}}</ion-col>
+                            <ion-col width-15>{{appointment.end| dateMomentFormat: 'DD-MM-YYYY'}}</ion-col>
+                            <ion-col width-15>{{appointment.end| dateMomentFormat: 'HH:mm'}}</ion-col>
+                            <ion-col width-15>{{appointment.location}}</ion-col>
+                        </ion-row>
+                    </ion-item>
+                    
+                </ion-item-sliding>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+    <print *ngIf="appProvider.debug" [value]="appointments"></print>
+</ion-content>

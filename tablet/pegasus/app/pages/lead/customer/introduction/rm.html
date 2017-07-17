@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"lead.documents.relationshipManager" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onGetStarted()">
+                {{"lead.introduction.getStarted" | translate}}
+                <ion-icon name="walk"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="introduction-rm" [style.background]="'url(' + cordovaProvider.getStoredPath('user/' + userProvider.userProfile.login + '.jpg') + ')'">
+    <ion-card class="card-override left">
+        <ion-card-header>
+            <div class="divider">
+                <div><span></span><span></span><span></span></div>
+            </div>
+            <ion-row bottom>
+                <ion-col width-66>
+                    <h2>{{userProvider.userProfile.name}}</h2>
+                    <p> {{userProvider.userProfile.title}} <br/>{{userProvider.userProfile.branch}}</p>
+                </ion-col>
+                <ion-col width-33 text-right>
+                    <img src="image/logo.svg">
+                </ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content padding-top>
+            <ul>
+                <li *ngFor="let line of userProvider.userProfile.introduction.split('\n')">{{line}}</li>
+            </ul>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

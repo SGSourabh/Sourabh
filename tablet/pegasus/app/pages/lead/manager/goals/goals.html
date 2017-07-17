@@ -1,0 +1,112 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{appProvider.current.lead.surname}} {{appProvider.current.lead.name}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onAdd()" *ngIf="goals && goals.list.length < maxGoalsAllowed">
+                {{"action.create" | translate}}
+                <ion-icon name='add'></ion-icon>
+            </button>
+            <button (click)="onSave()">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+            <button (click)="onNext()">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-row wrap *ngIf="goals">
+        <ion-col width-50 *ngFor="let goal of goals.list; let goalIndex =index" >
+            <ion-card class="card-dark-header">
+                <ion-card-header>
+                   <ion-row class="card-dark-col">
+                       <ion-col>
+                         <h2>{{'lookup.goals.' + goal.name | translate}}</h2>
+                            </ion-col>
+                        </ion-row>
+                </ion-card-header>
+                <ion-card-content>
+                    <form #goalForm="ngForm" novalidate>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label stacked>{{'needs.goals.goal.priority' | translate}}</ion-label>
+                                    <ion-select (ionChange)="onPriorityChange(goal)" [(ngModel)]="goal.priority" name="priority" #priority="ngModel" [cancelText]="'action.cancel' | translate"
+                                                [okText]="'action.submit' | translate">
+                                        <ion-option *ngFor="let goal of goals.list; let i = index" [value]="i + 1">{{i + 1}}</ion-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label stacked>{{'needs.goals.goal.duration' | translate}} ({{"lead.lending.calculator.month" | translate}})</ion-label>
+                                    <ion-input [(ngModel)]="goal.duration" type="number" name="duration" integer integerMin="0" integerMax="9999"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label stacked>{{'needs.goals.goal.available' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                                    <ion-input [(ngModel)]="goal.available" name="available" currency maxlength="19"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label stacked>{{'needs.goals.goal.needed' | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                                    <ion-input [(ngModel)]="goal.needed" name="needed" currency maxlength="19"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-item-divider>{{'needs.goals.goal.segment' | translate}}</ion-item-divider>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{'needs.goals.goal.personal' | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="goal.personal" name="personal" #goalPersonal="ngModel"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{'needs.goals.goal.business' | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="goal.business" name="business" #goalBusiness="ngModel"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-item-divider>{{'needs.goals.goal.type' | translate}}</ion-item-divider>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{'needs.goals.goal.lending' | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="goal.lending" name="lending" #goalLending="ngModel"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{'needs.goals.goal.saving' | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="goal.saving" name="saving" #goalSaving="ngModel"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-item>
+                            <ion-label stacked>{{'needs.goals.goal.note' | translate}}</ion-label>
+                            <ion-input [(ngModel)]="goal.note" type="text" name="note" #note="ngModel" maxlength="100"></ion-input>
+                        </ion-item>
+                        <ion-buttons padding-top>
+                       <!-- <button secondary [disabled]="!goalForm.form.valid" (click)="onUpdate(goal)">{{"action.save" | translate}}</button> -->
+                            <button outline secondary (click)="onRemove(goal)">{{"action.delete" | translate}}</button>
+                        </ion-buttons>
+                    </form>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <print *ngIf='appProvider.debug' name="goals" [value]="goals"></print>
+</ion-content>
+

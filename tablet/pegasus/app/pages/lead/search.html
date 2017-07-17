@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-title>
+            {{"action.search" | translate}}
+        </ion-title>
+        <ion-buttons start>
+            <button (click)="onDismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <form (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+        <ion-card>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label stacked>{{"lead.productType" | translate}}</ion-label>
+                    <ion-select [(ngModel)]="leadSearch.productType" name="productType" #productType="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let productType of lookupProvider.productTypes | async" [value]="productType">{{'lookup.productType.' + productType | translate}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.status" | translate}}</ion-label>
+                    <ion-select [(ngModel)]="leadSearch.status" name="status" #status="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let status of lookupProvider.statuses | async" [value]="status">{{'lookup.status.' + status | translate}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.nationalId" | translate}}</ion-label>
+                    <ion-input [(ngModel)]="leadSearch.nationalId" name="nationalId" type="text" maxlength="16" #nationalId="ngModel">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.search.from" | translate}}</ion-label>
+                    <ion-datetime [(ngModel)]="leadSearch.from" name="from" #from="ngModel" displayFormat="DD-MM-YYYY" [cancelText]="'action.cancel' | translate"
+                                  [doneText]="'action.submit' | translate"></ion-datetime>
+                </ion-item>
+                <p [hidden]="(leadSearch.from && leadSearch.to) || (!leadSearch.from && !leadSearch.to) || (leadSearch.from && !leadSearch.to)" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <ion-item>
+                    <ion-label stacked>{{"lead.search.to" | translate}}</ion-label>
+                    <ion-datetime [(ngModel)]="leadSearch.to" name="to" #to="ngModel" displayFormat="DD-MM-YYYY" [cancelText]="'action.cancel' | translate"
+                                  [doneText]="'action.submit' | translate"></ion-datetime>
+                </ion-item>
+                <p [hidden]="(leadSearch.from && leadSearch.to) || (!leadSearch.from && !leadSearch.to) || (!leadSearch.from && leadSearch.to)" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <p *ngIf="(leadSearch.from && leadSearch.to) && toDateLessThanFromDate(leadSearch.from, leadSearch.to)" danger padding-left>
+                    {{"message.mustBeGreaterThanOrEqualTo" | translate}} {{"lead.search.from" | translate}}
+                </p>
+                <ion-buttons padding-top>
+                    <button type="submit" [disabled]="!searchForm.form.valid || toDateLessThanFromDate(leadSearch.from, leadSearch.to)" secondary>{{"action.submit" | translate}}</button>
+                </ion-buttons>
+            </ion-card-content>
+        </ion-card>
+    </form>
+    <print *ngIf="appProvider.debug" [value]="leadSearch"></print>
+</ion-content>

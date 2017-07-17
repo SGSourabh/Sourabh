@@ -1,0 +1,147 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{appProvider.current.lead.surname}} {{appProvider.current.lead.name}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onUpdate()">
+              {{"lead.product.update" | translate}}
+                <ion-icon name="refresh"></ion-icon>
+            </button>
+            <button (click)="onNext()">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+<ion-item right>{{"lead.product.date_of_update" | translate}}</ion-item>
+    <ion-card>
+        <ion-card-header>
+            {{"lead.product.leading.leading" | translate}}
+        </ion-card-header>
+        <ion-card-content>
+           <ion-row wrap *ngIf="leadings">
+             <ion-col width-50 no-padding  *ngFor="let leadingsData of leadings">
+                <ion-card>
+                    <ion-card-content>
+                      <ion-item>
+                        <h3> {{"lead.product.leading.loan_discription" | translate}} : {{leadingsData.loanDesc}}</h3>
+                        <p> {{"lead.product.leading.loan_type" | translate}} : {{leadingsData.loanType}}</p>
+                        <p> {{"lead.product.leading.original_loan_ammount" | translate}} : {{leadingsData.loanAmount}}</p>
+                        <p> {{"lead.product.leading.current_reamaining_balance" | translate}} : {{leadingsData.currentBalance}}</p>
+                        <p> {{"lead.product.leading.maturity_date" | translate}} : {{leadingsData.loanMaturityDate | dateMomentFormat: 'DD-MM-YYYY'}}</p>
+                        <p> {{"lead.product.leading.loan_status" | translate}} : {{leadingsData.loanStatus}}</p>
+                        <p> {{"lead.product.leading.interest_rate" | translate}} : {{leadingsData.effectiveInterestRate}}</p>
+                        <p> {{"lead.product.leading.collaterals_value" | translate}} : {{leadingsData.collateralValue}}</p>
+                     </ion-item>
+                   </ion-card-content>
+               </ion-card>
+             </ion-col>
+          </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            {{"lead.product.saving_account.saving_account" | translate}}
+        </ion-card-header>
+        <ion-card-content>
+           <ion-row wrap *ngIf="savingAccount">
+             <ion-col width-50 no-padding *ngFor="let savingAccountData of savingAccount">
+               <ion-card>
+                 <ion-card-content>
+                   <ion-item>
+                    <h3> {{"lead.product.saving_account.acoount_type" | translate}} : {{savingAccountData.savingAccounType}}</h3>
+                    <p> {{"lead.product.saving_account.term" | translate}} : {{savingAccountData.term}}</p>
+                    <p> {{"lead.product.saving_account.maturity_date" | translate}} : {{savingAccountData.savingMaturityDate | dateMomentFormat: 'DD-MM-YYYY'}}</p>
+                    <p> {{"lead.product.saving_account.currency" | translate}} : {{savingAccountData.savingAccountCurrency}}</p>
+                    <p> {{"lead.product.saving_account.balance" | translate}} : {{savingAccountData.savingAccountBalance}}</p>
+                    <p> {{"lead.product.saving_account.interest_rate" | translate}} : {{savingAccountData.interestRate}}</p>
+                  </ion-item>
+                 </ion-card-content>
+                </ion-card>
+             </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            {{"lead.product.card.card" | translate}}
+        </ion-card-header>
+        <ion-card-content>
+           <ion-row wrap *ngIf="card">
+             <ion-col width-50 no-padding *ngFor="let cardData of card">
+                <ion-card>
+                   <ion-card-content>
+                      <ion-item>
+                        <h3> {{"lead.product.card.card_type" | translate}} : {{cardData.cartType}}</h3>
+                        <p> {{"lead.product.card.card_category" | translate}} : {{cardData.cardCategory}}</p>
+                        <p> {{"lead.product.card.card_status" | translate}} : {{cardData.cardStatus}}</p>
+                        <p> {{"lead.product.card.card_limit" | translate}} : {{cardData.cardLimit}}</p>
+                        <p> {{"lead.product.card.available_fund" | translate}} : {{cardData.availableFund}}</p>
+                        <p> {{"lead.product.card.expiry_date" | translate}} : {{cardData.expiryDate| dateMomentFormat: 'DD-MM-YYYY' }}</p>
+                       </ion-item>
+                     </ion-card-content>
+                </ion-card>
+              </ion-col>
+             </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            {{"lead.product.current_account.current_account" | translate}}
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row wrap *ngIf="currentAccount">
+            <ion-col width-50 no-padding *ngFor="let currentAccountData of currentAccount">
+               <ion-card>
+                 <ion-card-content>
+                    <ion-item>
+                    <!-- <h3> {{"lead.product.current_account.current_account" | translate}}</h3> -->
+                        <p>{{"lead.product.current_account.currency" | translate}} : {{currentAccountData.currentAccountCurrency}}</p>
+                        <p>{{"lead.product.current_account.balance" | translate}} : {{currentAccountData.currentAccountBalance}}</p>
+                        <p>{{"lead.product.current_account.status" | translate}} : {{currentAccountData.currentAccountStatus}}</p>
+                        <p>{{"lead.product.current_account.freedom" | translate}} : {{currentAccountData.freedom}}</p>
+                      <p>{{"lead.product.current_account.payroll" | translate}} : {{currentAccountData.payroll}}</p>
+                   </ion-item>
+                 </ion-card-content>
+               </ion-card>
+             </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            {{"lead.product.internet_banking.internet_banking" | translate}}/{{"lead.product.internet_banking.my_vib" | translate}}
+        </ion-card-header>
+        <!-- <ion-card-content *ngIf="internetBanking">
+       
+         <ion-row wrap *ngFor="let internetBankingData of internetBanking">
+             <ion-col width-50 no-padding>
+                 <ion-card>
+                    <ion-card-content>
+                         <ion-item >
+                            <h3> {{"lead.product.internet_banking.internet_banking" | translate}} : {{internetBankingData.internetBanking}}</h3>
+                            <p> {{"lead.product.internet_banking.last_loging_date" | translate}} : {{internetBankingData.ibLastLoginDate | dateMomentFormat: 'DD-MM-YYYY'}}</p>
+                        </ion-item>
+                    </ion-card-content>
+                  </ion-card>
+            </ion-col>
+           <ion-col width-50 no-padding>
+               <ion-card>
+                  <ion-card-content>
+                    <ion-item >
+                        <h3>{{"lead.product.internet_banking.my_vib" | translate}} : {{internetBankingData.myVIB}}</h3>
+                        <p> {{"lead.product.internet_banking.last_loging_date" | translate}} : {{internetBankingData.myVIBLastLoginDate | dateMomentFormat: 'DD-MM-YYYY'}}</p>
+                    </ion-item>
+                  </ion-card-content>
+                </ion-card>
+            </ion-col>
+        
+        
+        </ion-row>
+        </ion-card-content> -->
+    </ion-card>
+</ion-content>

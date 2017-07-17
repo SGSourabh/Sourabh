@@ -1,0 +1,278 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title text-center>{{'lead.background.background' | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onSave(false)">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+            <button (click)="onSave(true)">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="customer-background">
+<!-- <div style="height: 100%;width: 100%"> -->
+    <ion-card>
+        <ion-card-content>
+            <ion-item>
+                <ion-avatar item-left>
+                    <img src="image/icon/advice.svg">
+                </ion-avatar>
+                <h2>{{"lead.background.tellUsAboutYourSelf" | translate}}</h2>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+    <ion-row *ngIf="background">
+        <ion-col width-50 no-padding>
+            <ion-card>
+                <ion-card-content padding>
+                    <ion-item-divider margin-bottom text-wrap>
+                        {{"lead.background.classification" | translate}} *
+                    </ion-item-divider>
+                    <ion-row>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.classification === 'individual'" (click)="toggleBackground('classification', 'individual')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-avatar"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.classification.individual' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.classification === 'trading_household'"
+                                 (click)="toggleBackground('classification', 'trading_household')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-household_items"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.classification.trading_household' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.classification === 'sme'" (click)="toggleBackground('classification', 'sme')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-business"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.classification.sme' | translate}}</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item-divider margin-bottom text-wrap>
+                        {{"lead.background.residential" | translate}} *
+                    </ion-item-divider>
+                    <ion-row>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.residential === 'live_alone'" (click)="toggleBackground('residential', 'live_alone')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-live_alone"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.residential.live_alone' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.residential === 'with_parents'" (click)="toggleBackground('residential', 'with_parents')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-live_parents"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.residential.with_parents' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.residential === 'with_children'" (click)="toggleBackground('residential', 'with_children')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-live_family"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.residential.with_children' | translate}}</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item-divider margin-bottom text-wrap>
+                        {{"lead.background.ownership" | translate}} *
+                    </ion-item-divider>
+                    <ion-row>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.ownership === 'private_owned'" (click)="toggleBackground('ownership', 'private_owned')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-private_house"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.ownership.private_owned' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.ownership === 'rented'" (click)="toggleBackground('ownership', 'rented')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-rented_house"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.ownership.rented' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.ownership === 'parents_owned'" (click)="toggleBackground('ownership', 'parents_owned')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-parents_house"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.ownership.parents_owned' | translate}}</span>
+                        </ion-col>
+                    </ion-row>
+                    <!-- <ion-item-divider margin-bottom text-wrap *ngIf="background.businessState === 'business'" >
+                        {{"lead.background.businessType" | translate}} *
+                    </ion-item-divider>
+                    <ion-row *ngIf="background.businessState === 'business'">
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.businessType === 'business_owner'" (click)="toggleBackground('businessType', 'business_owner')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-private_house"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.businessType.business_owner' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-33 class="choice-wrap " [class.active]="background.businessType === 'self_employed'" (click)="toggleBackground('businessType', 'self_employed')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-rented_house"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.businessType.self_employed' | translate}}</span>
+                        </ion-col>
+                    </ion-row> -->
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-50 no-padding>
+            <ion-card>
+                <ion-card-content padding>
+                    <ion-row>
+                        <ion-item-divider ion-col width-50 margin-bottom text-wrap>
+                            {{"lead.background.education" | translate}} *
+                        </ion-item-divider>
+                        <ion-item-divider ion-col width-50 margin-bottom margin-left text-wrap *ngIf="background.classification && background.classification !== 'individual'">
+                            {{'lead.background.businessState' | translate}}
+                        </ion-item-divider>
+                    </ion-row>
+                    <ion-row>
+                        <!-- education -->
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.education === 'domestic_education'"
+                                 (click)="toggleBackground('education', 'domestic_education')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-education_local"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.backgroudEducation.domestic_education' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.education === 'education_abroad'" (click)="toggleBackground('education', 'education_abroad')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-education_abroad"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.backgroudEducation.education_abroad' | translate}}</span>
+                        </ion-col>
+                        <!-- businessState-->
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.businessState === 'business'" (click)="presentActionSheet('business')"*ngIf="background.classification && background.classification !== 'individual'">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-business"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.businessState.business' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.businessState === 'exit_business'"
+                                 (click)="toggleBackground('businessState', 'exit_business')" *ngIf="background.classification && background.classification !== 'individual'">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-business_dissolve"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.businessState.exit_business' | translate}}</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item-divider margin-bottom text-wrap>
+                        {{"lead.background.employment" | translate}} *
+                    </ion-item-divider>
+                    <ion-row>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.employment === 'work_for_a_company'"
+                                 (click)="presentActionSheet('work_for_a_company')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_company"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employment.work_for_a_company' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.employment === 'unemployed'" (click)="toggleBackground('employment', 'unemployed')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employment.unemployed' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.employment === 'retire'" (click)="toggleBackground('employment', 'retire')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employment.retire' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.employment === 'study'" (click)="toggleBackground('employment', 'study')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employment.study' | translate}}</span>
+                        </ion-col>
+                    </ion-row>
+
+
+                   <!-- employmentType -->
+                    <!--  <ion-item-divider margin-bottom text-wrap *ngIf="background.employment === 'work_for_a_company'">
+                        {{"lead.background.employmentType" | translate}} *
+                    </ion-item-divider>
+                    <ion-row *ngIf="background.employment === 'work_for_a_company'">
+                        <ion-col width-20 class="choice-wrap " [class.active]="background.employmentType === 'civil_servant'"
+                                 (click)="toggleBackground('employmentType', 'civil_servant')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_company"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employmentType.civil_servant' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-20 class="choice-wrap " [class.active]="background.employmentType === 'management_level'" (click)="toggleBackground('employmentType', 'management_level')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employmentType.management_level' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-20 class="choice-wrap " [class.active]="background.employmentType === 'professional_employee'" (click)="toggleBackground('employmentType', 'professional_employee')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employmentType.professional_employee' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-20 class="choice-wrap " [class.active]="background.employmentType === 'direct_employee'" (click)="toggleBackground('employmentType', 'direct_employee')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employmentType.direct_employee' | translate}}</span>
+                        </ion-col>
+                         <ion-col width-20 class="choice-wrap " [class.active]="background.employmentType === 'staff_level'" (click)="toggleBackground('employmentType', 'staff_level')">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-work_looking"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.employmentType.staff_level' | translate}}</span>
+                        </ion-col>
+                    </ion-row> -->
+
+                    <ion-row>
+                        <ion-item-divider ion-col width-50 margin-bottom text-wrap>
+                            {{"lead.background.insurance" | translate}}
+                        </ion-item-divider>
+                        <ion-item-divider ion-col width-50 margin-bottom margin-left text-wrap>
+                            {{"lead.background.accumulativeAssets" | translate}}
+                        </ion-item-divider>
+                    </ion-row>
+                    <ion-row>
+                        <!-- insurance -->
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.insuranceLife" (click)="background.insuranceLife = !background.insuranceLife">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-insurance_life"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.insurance.LifeInsurance' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.insuranceGeneral" (click)="background.insuranceGeneral = !background.insuranceGeneral">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-insurance_general"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.insurance.GeneralInsurance' | translate}}</span>
+                        </ion-col>
+                        <!-- accumulative assets -->
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.accumulativeCar" (click)="background.accumulativeCar = !background.accumulativeCar">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-car"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.accumulativeAssets.Car' | translate}}</span>
+                        </ion-col>
+                        <ion-col width-25 class="choice-wrap " [class.active]="background.accumulativeOther" (click)="background.accumulativeOther = !background.accumulativeOther">
+                            <div class="btn-choice">
+                                <ion-icon class="icon-assests"></ion-icon>
+                            </div>
+                            <span class="desc">{{'lookup.accumulativeAssets.OtherAccumulativeAssets' | translate}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <!-- </div> -->
+    <print *ngIf="appProvider.debug" name="background" [value]="background"></print>
+</ion-content>

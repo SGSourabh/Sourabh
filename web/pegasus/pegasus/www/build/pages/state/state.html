@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-navbar secondary>
+        <ion-title>
+            State
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <print name="introduction" [value]="appProvider.current.introduction"></print>
+    <print name="selections" [value]="appProvider.current.selections"></print>
+    <print name="suggestionData" [value]="appProvider.current.suggestionData"></print>
+    <print name="salesGroupData" [value]="appProvider.current.salesGroupData"></print>
+    <print name="selectionData" [value]="appProvider.current.selectionData"></print>
+    <print name="applicationId" [value]="appProvider.current.applicationId"></print>
+    <!--<print name="file" [value]="file"></print>-->
+    <print name="diff" [value]="diff"></print>
+    <print name="contents" [value]="contents"></print>
+    <print name="userProfile" [value]="userProvider.userProfile"></print>
+</ion-content>

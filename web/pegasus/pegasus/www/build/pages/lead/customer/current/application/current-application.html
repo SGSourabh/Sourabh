@@ -1,0 +1,282 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title text-center>{{"lead.currentAccount.applicationInformation" | translate}}</ion-title>
+        <ion-buttons right>
+            <button [disabled]="formInvalid" (click)="onSave()">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+           <!--  <button [disabled]="validatebutton==false" (click)="onValidate()">
+                {{"action.validate" | translate}}
+                <ion-icon name='checkmark-circle-outline'></ion-icon>
+            </button> -->
+             
+              <!--  <button [disabled]="nextbutton==false" (click)="onNext()" >
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button> -->
+            
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="customer-applications">
+    <ng-container >
+        <form #currentAccountForm="ngForm" novalidate (ngSubmit)="onSave()" [hidden]="onForm(currentAccountForm)">
+            <ion-card>
+                <ion-item>
+                    <ion-avatar item-left>
+                        <img src="image/icon/contact.svg">
+                    </ion-avatar>
+                    <h2>{{"lead.currentAccount.youAre5Min" | translate}}.</h2>
+                    <p>{{"lead.currentAccount.afterCompleting" | translate}}.</p>
+                </ion-item>
+            </ion-card>
+            <ion-row>
+                <ion-col width-50 no-padding>
+                    <ion-card>
+                        <ion-card-header>
+                            {{"lead.currentAccount.identity" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                           
+                             <ion-item *ngIf="!applicationId">
+                                <ion-label stacked>{{"registration.username" | translate }} *</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.username" name="username" #username="ngModel" maxlength="40" ></ion-input>
+                            </ion-item>
+                           <!--   <ion-item >
+                                <ion-label stacked>{{"lead.currentAccount.tempAccountNr" | translate }}</ion-label>
+                                <ion-input [value]="currentAccount.tempAccountNr" disabled></ion-input>
+                            </ion-item>
+ -->
+                             <ion-item *ngIf="lead">
+                                <ion-label stacked>{{"lead.currentAccount.maritalStatus" | translate}} *</ion-label>
+                               <ion-select [(ngModel)]="lead.maritalStatus" name="maritalStatus" #maritalStatus="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let maritalStatus of lookupProvider.maritalStatuses | async" [value]="maritalStatus">{{'lookup.maritalStatus.' + maritalStatus | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                             <ion-item *ngIf="lead">
+                                <ion-label stacked>{{"customer.dateOfBirth" | translate}} *</ion-label>
+                                <ion-datetime [(ngModel)]="lead.dateOfBirth" name="dateOfBirth" #dateOfBirth="ngModel" displayFormat="DD-MM-YYYY"
+                                              [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item>
+                            <!-- <ion-item>
+                                <ion-label stacked>{{"customer.dateOfBirth" | translate}}</ion-label>
+                                <ion-input [value]="lead.dateOfBirth"  disabled></ion-input>
+                            </ion-item> -->
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.placeOfBirth" | translate}} *</ion-label>
+                                <!--  <ion-input [(ngModel)]="currentAccount.placeOfBirth" name="placeOfBirth" #placeOfBirth="ngModel" ></ion-input>  -->
+                                <ion-select [(ngModel)]="currentAccount.placeOfBirth" name="placeOfBirth" #placeOfBirth="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let place of lookupProvider.placesOfBirths | async" [value]="place">{{'lookup.placesOfBirth.' + place | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item> 
+                            <!-- <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.phonenumber" | translate}}</ion-label>
+                                <ion-input type="text" [(ngModel)]="currentAccount.phone" name="phonenumber" #phonenumber="ngModel" maxlength="100"></ion-input>
+                            </ion-item> -->
+                            <!-- <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.emailAdd" | translate}}</ion-label>
+                                <ion-input type="text" [(ngModel)]="currentAccount.email" name="emailAdd" #emailAdd="ngModel" maxlength="100"></ion-input>
+                            </ion-item> -->
+                              <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.position" | translate}} *</ion-label>
+                                 <ion-input [(ngModel)]="currentAccount.position" name="position" #position="ngModel" maxlength="40"></ion-input> 
+                                <!-- <ion-select [(ngModel)]="currentAccount.position" name="position" #position="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let position of lookupProvider.currentposition | async" [value]="position">{{'lookup.currentposition.' + position | translate}}</ion-option>
+                                </ion-select>
+ -->                            </ion-item>
+                             <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.occupation" | translate}} *</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.occupation" name="occupation" #occupation="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let occupation of lookupProvider.occupations | async" [value]="occupation">{{'lookup.occupation.' + occupation | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                             <ion-item *ngIf="!applicationId">
+                                <ion-label stacked>{{"lead.currentAccount.branch" | translate}} *</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.branch" name="branch" #branch="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+
+                                    <ion-option *ngFor="let bankbranch of lookupProvider.bankBranches | async" [value]="bankbranch">{{'lookup.bankBranches.' + bankbranch | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                           <!--  <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.readBranch" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.readBranch" name="readBranch" #readBranch="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                   <ion-option *ngFor="let bankbranch of lookupProvider.bankBranches | async" [value]="bankbranch">{{'lookup.bankBranches.' + bankbranch | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item> -->
+                            <ion-item *ngIf='showyesNo' >
+                                <ion-label stacked>{{"lead.currentAccount.additionalAccount" | translate}} *</ion-label>
+                                    <ion-input [(ngModel)]="currentAccount.purpose" name="purpose"   #purpose="ngModel" maxlength="100"></ion-input>   
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"customer.nationality" | translate}} *</ion-label>
+                              
+
+                                <ion-select [(ngModel)]="currentAccount.nationality" name="nationality"   #nationality="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let country of lookupProvider.nationality | async" [value]="country">{{'lookup.nationality.' + country | translate}}</ion-option>
+                                
+                            </ion-select>
+                            </ion-item>
+                            <!--  <ion-item >
+                                <ion-label stacked>{{"lead.currentAccount.curentAccType" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.accountType" name="curentAccType" #curentAccType="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let type of accountType['accountType'] | async" [value]="type">{{type}}</ion-option>
+                                </ion-select>
+                            </ion-item> -->
+
+                           <!--  <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.placeOfBirth" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.placeOfBirth" name="placeOfBirth" #placeOfBirth="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let place of lookupProvider.placesOfBirths | async" [value]="place">{{'lookup.placesOfBirth.' + place | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.minAccBalance" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.minAccBalance" name="minAccBalance" #minAccBalance="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let place of lookupProvider.placesOfBirths | async" [value]="place">{{'lookup.placesOfBirth.' + place | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item> -->
+                            <!-- <ion-item >
+                                <ion-label stacked>{{"lead.currentAccount.curentAccType" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.accountType" name="curentAccType" #curentAccType="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate" >
+                                    <ion-option *ngFor="let type of account; #i=index"  [value]="type" >{{type.accountType}}</ion-option>
+                                </ion-select>
+                            </ion-item> -->
+
+                            <!-- <ion-item >
+                                <ion-label stacked>{{"lead.currentAccount.curentAccType" | translate}}</ion-label>
+                                <ion-select [(ngModel)]="currentAccount.accountType" name="curentAccType" #curentAccType="ngModel" [cancelText]="'action.cancel' | translate"
+                                            [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let type of accountType['accountType'] | async" [value]="type">{{type}}</ion-option>
+                                </ion-select>
+                            </ion-item> -->
+                            <!-- ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idDateOfIssue" | translate}}</ion-label>
+                                <ion-datetime [(ngModel)]="currentAccount.idDateOfIssue" name="idDateOfIssue" #idDateOfIssue="ngModel" displayFormat="DD-MM-YYYY"
+                                              [cancelText]="'action.cancel' | translate"
+                                              [doneText]="'action.submit' | translate"></ion-datetime>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.idPlaceOfIssue" | translate}}</ion-label>
+                                <ion-input type="text" [(ngModel)]="currentAccount.idPlaceOfIssue" name="idPlaceOfIssue" #idPlaceOfIssue="ngModel" maxlength="100"></ion-input>
+                            </ion-item> -->
+                            
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+                <ion-col width-50 no-padding>
+         
+                    <ion-card>
+                        <ion-card-header>
+                            {{"lead.currentAccount.currentAddress" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentAddressLine1" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentAddressLine1" name="currentAddressLine1" type="text" maxlength="100"
+                                              #currentAddressLine1="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentAddressLine2" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentAddressLine2" name="currentAddressLine2" type="text" maxlength="100"
+                                              #currentAddressLine2="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentAddressLine3" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentAddressLine3" name="currentAddressLine3" type="text" maxlength="100"
+                                              #currentAddressLine3="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentAddressLine4" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentAddressLine4" name="currentAddressLine4" type="text" maxlength="100"
+                                              #currentAddressLine4="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentCity" | translate}}</ion-label>
+                                <!-- <ion-input [(ngModel)]="currentAccount.currentCity" name="city" type="text" maxlength="30" #city="ngModel"></ion-input> -->
+
+                                <ion-select [(ngModel)]="currentAccount.currentCity" name="city"   #city="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let city of lookupProvider.listOfCity | async" [value]="city">{{'lookup.listOfCity.' + city | translate}}</ion-option>
+                                
+                            </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentState" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentState" name="state" type="text" maxlength="30" #state="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.currentZipCode" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentZipCode" name="currentZipCode" type="text" maxlength="10" #permanentZipCode="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.country" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.currentCountry" name="country" type="text" maxlength="30" #country="ngModel"></ion-input>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                    
+                   <ion-card>
+                        <ion-card-header>
+                            {{"lead.currentAccount.permanentAddress" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentAddressLine1" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentAddressLine1" name="permanentAddressLine1" type="text" maxlength="100"
+                                           #permanentAddressLine1="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentAddressLine2" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentAddressLine2" name="permanentAddressLine2" type="text" maxlength="100"
+                                           #permanentAddressLine2="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentAddressLine3" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentAddressLine3" name="permanentAddressLine3" type="text" maxlength="100"
+                                           #permanentAddressLine3="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentAddressLine4" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentAddressLine4" name="permanentAddressLine4" type="text" maxlength="100"
+                                           #permanentAddressLine4="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentCity" | translate}}</ion-label>
+                                <!-- <ion-input [(ngModel)]="currentAccount.permanentCity" name="city" type="text" maxlength="30" #city="ngModel"></ion-input> -->
+                                <ion-select [(ngModel)]="currentAccount.permanentCity" name="city" #city="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                                    <ion-option *ngFor="let city of lookupProvider.listOfCity | async" [value]="city">{{'lookup.listOfCity.' + city | translate}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentState" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentState" name="state" type="text" maxlength="30" #state="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.permanentZipCode" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentZipCode" name="permanentZipCode" type="text" maxlength="10" #permanentZipCode="ngModel"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label stacked>{{"lead.currentAccount.country" | translate}}</ion-label>
+                                <ion-input [(ngModel)]="currentAccount.permanentCountry" name="country" type="text" maxlength="30" #country="ngModel"></ion-input>
+                            </ion-item>
+                            
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ng-container>
+    <print *ngIf="appProvider.debug" name="currentAccount" [value]="currentAccount"></print>
+</ion-content>
+

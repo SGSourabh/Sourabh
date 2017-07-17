@@ -1,0 +1,72 @@
+<ion-header>
+    <ion-navbar primary hideBackButton="true">
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{appProvider.current.lead.surname}} {{appProvider.current.lead.name}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-row wrap>
+        <ion-col width-33>
+            <ion-card (click)="personal()">
+                <img [src]="cordovaProvider.getStoredPath('carousel/personal.jpg')"/>
+                <ion-card-content text-center class="carousalcardtext">
+                    <div>
+                        <span>01. </span> {{'lead.personal.personal' | translate}}
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card (click)="background()">
+                <img [src]="cordovaProvider.getStoredPath('carousel/background.jpg')"/>
+                <ion-card-content text-center class="carousalcardtext">
+                    <div>
+                        <span>02. </span> {{'lead.background.background' | translate}}
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card (click)="goals()">
+                <img [src]="cordovaProvider.getStoredPath('carousel/goals.jpg')"/>
+                <ion-card-content text-center class="carousalcardtext">
+                    <div>
+                        <span>03. </span> {{'lead.goals.goals' | translate}}
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card (click)="financial()">
+                <img [src]="cordovaProvider.getStoredPath('carousel/financial.jpg')"/>
+                <ion-card-content text-center class="carousalcardtext">
+                    <div>
+                        <span>04. </span> {{'lead.fhc.financial' | translate}}
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card (click)="recommendation()">
+                <img [src]="cordovaProvider.getStoredPath('carousel/recommendations.jpg')"/>
+                <ion-card-content text-center class="carousalcardtext">
+                    <div>
+                        <span>05. </span> {{'lead.recommendations.recommendations' | translate}}
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card (click)="application()">
+                <img [src]="cordovaProvider.getStoredPath('carousel/application.jpg')"/>
+                <ion-card-content text-center class="carousalcardtext">
+                    <div>
+                        <span>06. </span> {{'lead.applications.applications' | translate}}
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>

@@ -1,0 +1,14 @@
+.registration {
+  background-image: url('../../image/pages/login/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  ion-card {
+    @include dshadow(0px, 25px, 55px, 0.21, 0px, 16px, 18px, 0.21);
+  }
+  ion-card ion-card-header {
+    background: $dark-blue;
+  }
+  .row {
+    height: 100%;
+  }
+}

@@ -1,0 +1,156 @@
+<style>
+    .payment ion-col{
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+    height: 50px;
+    }
+    .payment ion-row:nth-child(odd) {
+        background-color: #F4F4F4;
+    }
+    .payment ion-row:first-child {
+        background-color: #999999;
+        color:#FFF;
+    }
+</style>
+
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{"lead.lending.calculator.repayment_schedule" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onExport()">
+                {{"action.exportDocument" | translate}}
+                <ion-icon name='download'></ion-icon>
+            </button>
+            <button (click)="onEmail()">
+                {{"action.emailDocument" | translate}}
+                <ion-icon name='mail'></ion-icon>
+            </button>
+            <button (click)="onClose()">
+                {{'action.close'| translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ng-container *ngIf="repayments">
+        <ion-card>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label>{{"lead.lending.calculator.advance_repayment" | translate}}</ion-label>
+                    <ion-checkbox [(ngModel)]="model.advanceRepayment" item-right></ion-checkbox>
+                </ion-item>
+                <ng-container *ngIf="model.advanceRepayment">
+                    <ion-row>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.lending.calculator.advanced_repayment_period" | translate}} ({{"lead.lending.calculator.month" | translate}})</ion-label>
+                            <ion-select (ionChange)="generateRepaymentSchedule()" [(ngModel)]="model.advancedRepaymentPeriod" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let advancedRepaymentPeriod of advancedRepaymentPeriods" [value]="advancedRepaymentPeriod">{{advancedRepaymentPeriod}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.lending.calculator.remaining_principal_amount" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [value]="calculatedRemainingPrincipalAmount() | number:'1.2-2'" type="text" readonly>
+                            </ion-input>
+                        </ion-item>
+                    </ion-row>
+                    <ng-container *ngIf="partialRepayment()">
+                        <ion-item>
+                            <ion-label>{{"lead.lending.calculator.partial_repayment" | translate}}</ion-label>
+                            <ion-checkbox (ionChange)="generateRepaymentSchedule()" [(ngModel)]="model.partialRepayment" item-right></ion-checkbox>
+                        </ion-item>
+                        <ng-container *ngIf="model.partialRepayment">
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label stacked>{{"lead.lending.calculator.advanced_repayment_amount" | translate}} ({{"lead.lending.calculator.vnd" | translate}})
+                                        ({{"lead.lending.calculator.max" |
+                                        translate}} {{calculatedRemainingPrincipalAmount() | number:'1.2-2'}})
+                                    </ion-label>
+                                    <ion-input (blur)="generateRepaymentSchedule()" [(ngModel)]="model.advancedRepaymentAmount" currency maxlength="19">
+                                    </ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label stacked>{{"lead.lending.calculator.options_to_repay" | translate}}</ion-label>
+                                    <ion-select (ionChange)="generateRepaymentSchedule()" [(ngModel)]="model.optionsToRepay" [cancelText]="'action.cancel' | translate"
+                                                [okText]="'action.submit' | translate">
+                                        <ion-option *ngFor="let optionToRepay of optionsToRepay" [value]="optionToRepay">{{'lead.lending.calculator.lookup.options_to_repay.' + optionToRepay |
+                                            translate}}
+                                        </ion-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-row>
+                        </ng-container>
+                    </ng-container>
+                    <ion-row>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.lending.calculator.fees_of_advanced_repayment" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [value]="calculatedFeesOfAdvancedRepayment() | number:'1.2-2'" type="text" readonly>
+                            </ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.lending.calculator.total_advanced_repayment" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                            <ion-input [value]="calculatedTotalAdvancedRepayment() | number:'1.2-2'" type="text" readonly>
+                            </ion-input>
+                        </ion-item>
+                    </ion-row>
+                </ng-container>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+    <ion-card>
+        <ion-card-content>
+            <ion-row>
+                <ion-col>
+                    <canvas #chart></canvas>
+                </ion-col>
+            </ion-row>
+            <ng-container *ngIf="repayments" >
+             <div class="payment">
+                <ion-row>
+                    <ion-col>
+                        {{"lead.lending.calculator.month" | translate}}
+                    </ion-col>
+                    <ion-col>
+                        {{"lead.lending.calculator.due_date" | translate}}
+                    </ion-col>
+                    <ion-col>
+                        {{"lead.lending.calculator.principal_due" | translate}} ({{"lead.lending.calculator.vnd" | translate}})
+                    </ion-col>
+                    <ion-col>
+                        {{"lead.lending.calculator.interest_due" | translate}} ({{"lead.lending.calculator.vnd" | translate}})
+                    </ion-col>
+                    <ion-col>
+                        {{"lead.lending.calculator.total_outstanding" | translate}} ({{"lead.lending.calculator.vnd" | translate}})
+                    </ion-col>
+                    <ion-col>
+                        {{"lead.lending.calculator.balance" | translate}} ({{"lead.lending.calculator.vnd" | translate}})
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngFor="let repayment of repayments">
+                    <ion-col>
+                        {{repayment.month}}
+                    </ion-col>
+                    <ion-col>
+                        {{repayment.dueDate | date:'dd-MM-y'}}
+                    </ion-col>
+                    <ion-col>
+                        {{repayment.principal | number:'1.2-2'}}
+                    </ion-col>
+                    <ion-col>
+                        {{repayment.interest | number:'1.2-2'}}
+                    </ion-col>
+                    <ion-col>
+                        {{repayment.outstanding | number:'1.2-2'}}
+                    </ion-col>
+                    <ion-col>
+                        {{repayment.balance | number:'1.2-2'}}
+                    </ion-col>
+                </ion-row>
+                </div>
+            </ng-container>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

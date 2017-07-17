@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"lead.leadCreation" | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <form (ngSubmit)="onCreate()" #leadForm="ngForm" novalidate *ngIf="lead">
+        <ion-card>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label stacked>{{"lead.name" | translate}} *</ion-label>
+                    <ion-input [(ngModel)]="lead.name" name="name" type="text" maxlength="20" #name="ngModel" required>
+                    </ion-input>
+                </ion-item>
+                <p [hidden]="name.valid || !name.touched" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <ion-item>
+                    <ion-label stacked>{{"lead.surname" | translate}} *</ion-label>
+                    <ion-input [(ngModel)]="lead.surname" name="surname" type="text" maxlength="20" #surname="ngModel" required>
+                    </ion-input>
+                </ion-item>
+                <p [hidden]="surname.valid || !surname.touched" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <ion-item>
+                    <ion-label stacked>{{"lead.phone" | translate}} *</ion-label>
+                    <ion-input [(ngModel)]="lead.phone" name="phone" type="text" maxlength="35" #phone="ngModel" required>
+                    </ion-input>
+                </ion-item>
+                <p [hidden]="phone.valid || !phone.touched" danger padding-left>
+                    {{"message.mandatory" | translate}}
+                </p>
+                <ion-item>
+                    <ion-label stacked>{{"lead.productType" | translate}} *</ion-label>
+                    <ion-select [(ngModel)]="lead.productType" name="productType" #productType="ngModel" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate"
+                                required>
+                        <ion-option *ngFor="let productType of lookupProvider.productTypes | async" [value]="productType">{{'lookup.productType.' + productType | translate}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.nationalId" | translate}}</ion-label>
+                    <ion-input [(ngModel)]="lead.nationalId" name="nationalId" type="text" maxlength="16" #nationalId="ngModel">
+                    </ion-input>
+                </ion-item>
+                <ion-buttons padding-top>
+                    <button type="submit" [disabled]="!leadForm.form.valid" secondary>{{"action.submit" | translate}}</button>
+                </ion-buttons>
+            </ion-card-content>
+        </ion-card>
+    </form>
+    <print *ngIf="appProvider.debug" name="lead" [value]="lead"></print>
+</ion-content>

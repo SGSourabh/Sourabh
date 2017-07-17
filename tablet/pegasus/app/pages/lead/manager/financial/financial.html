@@ -1,0 +1,400 @@
+<style type="text/css">
+    
+
+
+    .card-dark-header {
+  color: #414141; }
+  .card-dark-header ion-card-header {
+    padding: 0; }
+    .card-dark-header ion-card-header ion-icon {
+      color: #fff;
+      font-size: 2rem; }
+    .card-dark-header ion-card-header h2 {
+      color: #fff;
+      padding: 1.5rem 1.5rem; }
+  .card-dark-header .card-dark-col {
+    background: #999999; }
+  .card-dark-header ion-col {
+    padding: 0; }
+  .card-dark-header ion-list > .item-wrapper:first-child .item,
+  .card-dark-header ion-list > .item:first-child {
+    border-top: 0; }
+  .card-dark-header h2 {
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    font-weight: 600; }
+  .card-dark-header .item {
+    padding-left: 0; }
+  .card-dark-header ion-card-content h3 {
+    margin: 2rem 0 1rem;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    font-size: 1.6rem;
+    text-transform: none;
+    font-weight: 500;
+    border-radius: 0.3rem; }
+</style>
+
+
+
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{appProvider.current.lead.surname}} {{appProvider.current.lead.name}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onSubmit()">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <form #financialForm="ngForm" novalidate (ngSubmit)="onSubmit()" *ngIf="fhc">
+        <ion-row wrap>
+           <ion-col width-50 >
+                <ion-card class=" card-dark-header " *ngIf="fhc.personal">
+                    <ion-card-header >
+                    <ion-row class="card-dark-col">
+                    <ion-col width-100>
+
+                        <h2>{{"lead.fhc.individual.individual" | translate}}</h2></ion-col>
+                        </ion-row>
+                    </ion-card-header>
+                </ion-card>
+                <ion-card *ngIf="fhc.personal.banking">
+                    <ion-card-header>
+                        {{'lead.fhc.individual.banking.banking'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item-divider>{{'lead.fhc.individual.banking.cashflowManageQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.cashFlowBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.cashFlowBank" name="cashFlowBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.cashFlowOtherBank' | translate}}</ion-label>
+                           <!--  <ion-checkbox [(ngModel)]="fhc.personal.banking.cashFlowOtherBank" name="cashFlowOtherBank"></ion-checkbox> -->
+                           <ion-checkbox  [(ngModel)]="fhc.personal.banking.cashFlowOtherBank" name="cashFlowOtherBank" (click)="presentActionSheet('personalbanking')"></ion-checkbox>
+                        </ion-item>
+
+                       <!-- <ion-item-divider *ngIf="fhc.personal.banking.cashFlowOtherBank">Bank List</ion-item-divider>
+                        <ion-list *ngIf="fhc.personal.banking.cashFlowOtherBank" no-lines>
+                        <ion-item  *ngFor="let bank1 of bankList">
+                            <ion-label>{{bank1.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank1.SELECTED" ng-true-value="1" ng-false-value="0" [name]="bank1.bankName+'cashFlowOtherBank'"></ion-checkbox>
+                          </ion-item>
+                      </ion-list> -->
+                        <ion-item-divider>{{'lead.fhc.individual.banking.transactionHowQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.transactBranches' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.transactBranches" name="transactBranches"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.transactInternetBanking' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.transactInternetBanking" name="transactInternetBanking"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.transactSmartphone' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.transactSmartphone" name="transactSmartphone"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.transactPhone' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.transactPhone" name="transactPhone"></ion-checkbox>
+                        </ion-item>
+                        <ion-item-divider>{{'lead.fhc.individual.banking.paymodeQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.paymodeCreditCard' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.paymodeCreditCard" name="paymodeCreditCard"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.paymodeCash' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.paymodeCash" name="paymodeCash"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.paymodeBankTransfer' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.paymodeBankTransfer" name="paymodeBankTransfer"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.banking.paymodeOther' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.banking.paymodeOther" name="paymodeOther"></ion-checkbox>
+                        </ion-item>
+                        <print *ngIf="appProvider.debug" name="banking" [value]="fhc.personal.banking"></print>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card *ngIf="fhc.personal.lending">
+                    <ion-card-header>
+                        {{'lead.fhc.individual.lending.lending'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item-divider>{{'lead.fhc.individual.lending.purpose' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.purposeMortgage' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.purposeMortgage" name="purposeMortgage"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.purposeAuto' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.purposeAuto" name="purposeAuto"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.purposePersonal' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.purposePersonal" name="purposePersonal"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.purposeCreditCard' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.purposeCreditCard" name="purposeCreditCard"></ion-checkbox>
+                        </ion-item>
+                        <ion-item-divider>{{'lead.fhc.individual.lending.whichBankQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.lenderBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.lenderBank" name="lenderBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.lenderOther' | translate}}</ion-label>
+                           <!--  <ion-checkbox [(ngModel)]="fhc.personal.lending.lenderOther" name="lenderOther"></ion-checkbox> -->
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.lenderOther" name="lenderOther" (click)="presentActionSheet('personallending')"></ion-checkbox>
+                        </ion-item>
+                        <!-- <ion-item-divider *ngIf="fhc.personal.lending.lenderOther">Bank List</ion-item-divider>
+                        <ion-list *ngIf="fhc.personal.lending.lenderOther" no-lines>
+                        <ion-item *ngFor="let bank of bankList">
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="1" ng-false-value="0" [name]="bank.bankName"></ion-checkbox>
+                          </ion-item>
+                          </ion-list> -->
+                        <ion-item text-wrap>
+                            <ion-label stacked>{{'lead.fhc.individual.lending.interestPayable' | translate}}</ion-label>
+                            <ion-select [(ngModel)]="fhc.personal.lending.interest" name="interest" #interest="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let interest of lookupProvider.interests | async" [value]="interest">{{'lookup.interest.' + interest | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.lending.creditIntentQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.lending.creditIntent" name="creditIntent"></ion-checkbox>
+                        </ion-item>
+                        <print *ngIf="appProvider.debug" name="lending" [value]="fhc.personal.lending"></print>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card *ngIf="fhc.personal.protect">
+                    <ion-card-header>
+                        {{'lead.fhc.individual.protect.protect'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.protect.death' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.protect.death" name="death"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.protect.disability' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.protect.disability" name="disability"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.protect.criticalIllness' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.protect.criticalIllness" name="criticalIllness"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.protect.hospitilisation' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.protect.hospitilisation" name="hospitilisation"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.protect.longevity' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.protect.longevity" name="longevity"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.protect.manageRisksQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.protect.manageRisks" name="manageRisks"></ion-checkbox>
+                        </ion-item>
+                        <print *ngIf="appProvider.debug" name="protect" [value]="fhc.personal.protect"></print>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card *ngIf="fhc.personal.saving">
+                    <ion-card-header>
+                        {{'lead.fhc.individual.saving.savingAndInvest'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.saving.saveInvestQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.saving.saveInvest" name="saveInvest"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.saving.fundChildrenQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.saving.fundChildren" name="fundChildren"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.saving.saveSufficientQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.saving.saveSufficient" name="saveSufficient"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.saving.saveAndBenefitQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.saving.saveAndBenefit" name="saveAndBenefit"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.individual.saving.setupInvestmentQuestion' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.personal.saving.setupInvestment" name="setupInvestment"></ion-checkbox>
+                        </ion-item>
+                        <print *ngIf="appProvider.debug" name="saving" [value]="fhc.personal.saving"></print>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col width-50 *ngIf="fhc.business">
+               <ion-card class="card-dark-header" *ngIf="fhc.business">
+                    <ion-card-header >
+                    <ion-row class="card-dark-col">
+                            <ion-col width-100>
+                        <h2> {{"lead.fhc.business.business" | translate}}</h2></ion-col>
+                        </ion-row>
+                    </ion-card-header>
+                </ion-card>
+                <ion-card *ngIf="fhc.business.banking">
+                    <ion-card-header>
+                        {{'lead.fhc.business.banking.banking'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item-divider>{{'lead.fhc.business.banking.cashflowManageQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.cashFlowBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.cashFlowBank" name="business_cashFlowBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.cashFlowOtherBank' | translate}}</ion-label>
+                            <!-- <ion-checkbox [(ngModel)]="fhc.business.banking.cashFlowOtherBank" name="business_cashFlowOtherBank"></ion-checkbox> -->
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.cashFlowOtherBank" name="business_cashFlowOtherBank" (click)="presentActionSheet('businessbanking')"></ion-checkbox>
+                        </ion-item>
+
+                        <!-- <ion-item-divider *ngIf="fhc.business.banking.cashFlowOtherBank">Bank List</ion-item-divider>
+                        <ion-list *ngIf="fhc.business.banking.cashFlowOtherBank" no-lines>
+                        <ion-item *ngFor="let bank of bankList">
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="1" ng-false-value="0" [name]="bank.bankName"></ion-checkbox>
+                          </ion-item>
+                          </ion-list> -->
+                        <ion-item-divider>{{'lead.fhc.business.banking.transactionHowQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.transactBranches' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.transactBranches" name="business_transactBranches"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.transactInternetBanking' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.transactInternetBanking" name="business_transactInternetBanking"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.transactSmartphone' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.transactSmartphone" name="business_transactSmartphone"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.transactPhone' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.transactPhone" name="business_transactPhone"></ion-checkbox>
+                        </ion-item>
+                        <ion-item-divider>{{'lead.fhc.business.banking.paymentReceiveQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.payReceiveCheque' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.payReceiveCheque" name="business_payReceiveCheque"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.payReceiveCash' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.payReceiveCash" name="business_payReceiveCash"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.payReceiveBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.payReceiveBank" name="business_payReceiveBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.payReceiveOtherBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.payReceiveOtherBank" name="business_payReceiveOtherBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item-divider>{{'lead.fhc.business.banking.paymodeQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.paymodeCash' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.paymodeCash" name="business_paymodeCash"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.paymodeBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.paymodeBank" name="business_paymodeBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.banking.paymodeOtherBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.banking.paymodeOtherBank" name="business_paymodeOtherBank"></ion-checkbox>
+                        </ion-item>
+                    </ion-card-content>
+                    <print *ngIf="appProvider.debug" name="business banking" [value]="fhc.business.banking"></print>
+                </ion-card>
+                <ion-card *ngIf="fhc.business.lending">
+                    <ion-card-header>
+                        {{'lead.fhc.business.lending.lending'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item-divider>{{'lead.fhc.business.lending.purpose' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.lending.purposeFixedInvAssets' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.lending.purposeFixedInvAssets" name="business_purposeFixedInvAssets"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.lending.purposeShortWorkingCapital' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.lending.purposeShortWorkingCapital" name="business_purposeShortWorkingCapital"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.lending.purposeBusinessAuto' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.lending.purposeBusinessAuto" name="business_purposeBusinessAuto"></ion-checkbox>
+                        </ion-item>
+                        <ion-item-divider>{{'lead.fhc.business.lending.whichBankQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.lending.lenderBank' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.lending.lenderBank" name="business_lenderBank"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.lending.lenderOther' | translate}}</ion-label>
+                            <!-- <ion-checkbox [(ngModel)]="fhc.business.lending.lenderOther" name="business_lenderOther"></ion-checkbox> -->
+                            <ion-checkbox [(ngModel)]="fhc.business.lending.lenderOther" name="business_lenderOther" (click)="presentActionSheet('businesslending')"></ion-checkbox>
+                        </ion-item>
+                        <!-- <ion-item-divider *ngIf="fhc.business.lending.lenderOther">Bank List</ion-item-divider>
+                        <ion-list *ngIf="fhc.business.lending.lenderOther">
+                        <ion-item *ngFor="let bank of bankList">
+                            <ion-label>{{bank.bankId}}</ion-label>
+                            <ion-checkbox [(ngModel)]="bank.SELECTED" ng-true-value="1" ng-false-value="0" [name]="bank.bankName"></ion-checkbox>
+                          </ion-item>
+                        </ion-list> -->
+                        <ion-item text-wrap>
+                            <ion-label stacked>{{'lead.fhc.business.lending.interestPayable' | translate}}</ion-label>
+                            <ion-select [(ngModel)]="fhc.business.lending.interest" name="business_interest" #interest="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let interest of lookupProvider.interests | async" [value]="interest">{{'lookup.interest.' + interest | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <print *ngIf="appProvider.debug" name="business lending" [value]="fhc.business.lending"></print>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card *ngIf="fhc.business.protect">
+                    <ion-card-header>
+                        {{'lead.fhc.business.protect.protect'| translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.protect.buyInsurance' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.protect.buyInsurance" name="business_buyInsurance"></ion-checkbox>
+                        </ion-item>
+                        <ion-item-divider>{{'lead.fhc.business.protect.itemsToProtectQuestion' | translate}}</ion-item-divider>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.protect.protectIncome' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.protect.protectIncome" name="business_protectIncome"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.protect.protectInsuredPerson' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.protect.protectInsuredPerson" name="business_protectInsuredPerson"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.protect.protectBusinessAssets' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.protect.protectBusinessAssets" name="business_protectBusinessAssets"></ion-checkbox>
+                        </ion-item>
+                        <ion-item text-wrap>
+                            <ion-label>{{'lead.fhc.business.protect.protectOther' | translate}}</ion-label>
+                            <ion-checkbox [(ngModel)]="fhc.business.protect.protectOther" name="business_protectOther"></ion-checkbox>
+                        </ion-item>
+                        <print *ngIf="appProvider.debug" name="business protect" [value]="fhc.business.protect"></print>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>

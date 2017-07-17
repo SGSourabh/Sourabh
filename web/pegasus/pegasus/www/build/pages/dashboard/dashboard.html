@@ -1,0 +1,600 @@
+
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>{{"dashboard.dashboard" | translate}} {{(appProvider.env !== 'PROD' && appProvider.env !== 'STAGING') ? appProvider.env: ''}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="dashboard">
+    <ion-row center responsive-lg>
+        <ion-col width-33 >
+            <ion-slides *ngIf="oldestlead!='null'">
+                <ion-slide *ngFor="let old of oldestlead">
+                    <ion-card class="card-dash">
+                        <ion-card-header text-center>
+                            <ion-icon name="warning" padding-right></ion-icon>
+                            {{"dashboard.urgentAttention" | translate}}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <div class="circle">
+                                <img src="image/pages/dashboard/date.png" class="dashboard-img"/>
+                                <div class="text"> 
+                                    <span class="time"><b>{{old.created | date:'dd-MM-y'}}</b></span>
+                                </div>
+                            </div>
+                        </ion-card-content>
+                        <ion-buttons class="card-footer" end>
+                            <h2 class="card-footer-info">{{old.name}}</h2>
+                            <button secondary (click)="onLead('urgent')">{{"action.resolve" | translate}}</button>
+                        </ion-buttons>
+                    </ion-card>
+                </ion-slide>
+            </ion-slides>
+            <ion-card class="card-dash"  *ngIf="oldestlead=='null'">
+                <ion-card-header text-center>
+                    <ion-icon name="warning" padding-right></ion-icon>
+                    {{"dashboard.urgentAttention" | translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <div class="circle-null">
+                        <img src="image/pages/dashboard/date.png" class="dashboard-img"/>
+                        <div class="text-null"> 
+                            <span class="time-null"><b> 0 </b></span>
+                            <div style="color: #FFF">No Lead</div>
+                        </div>
+                    </div>
+                </ion-card-content>
+                <ion-buttons class="card-footer" end>
+                   <!--  <h2 class="card-footer-info">{{"lead.name" | translate}}</h2> -->
+                    <button secondary (click)="onLead('urgent')">{{"action.resolve" | translate}}</button>
+                </ion-buttons>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card class="card-dash">
+                <ion-card-header text-center>
+                    <ion-icon name="speedometer" padding-right></ion-icon>
+                    {{"dashboard.dailyTarget" | translate}}
+                </ion-card-header>
+               
+                    <!-- <img src="image/pages/dashboard/performance.png" class="dashboard-placeholder"/> -->
+            <div class="lead-stats-daily-placeholder">
+               <ion-row wrap style="height: 80%" class="main-lead">
+               
+                       <div class="comm-men-width" style="background-color: rgba(0, 0, 0, .1)">
+                            <div class="lead-stats-daily-bg">
+                                 <div  *ngIf="newLeadCountPer<26"   class="lead-status-daily-first" style="height:25%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>25&&newLeadCountPer<31"  class="lead-status-daily-first" style="height:30%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div *ngIf="newLeadCountPer>30&&newLeadCountPer<36"   class="lead-status-daily-first" style="height:35%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>35&&newLeadCountPer<41"  class="lead-status-daily-first" style="height:40%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>40&&newLeadCountPer<46"    class="lead-status-daily-first" style="height:45%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>45&&newLeadCountPer<51"   class="lead-status-daily-first" style="height:50%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>51&&newLeadCountPer<56"  class="lead-status-daily-first" style="height:55%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>56&&newLeadCountPer<61"  class="lead-status-daily-first" style="height:60%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="newLeadCountPer>61&&newLeadCountPer<66"  class="lead-status-daily-first" style="height:65%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="newLeadCountPer>65&&newLeadCountPer<71"  class="lead-status-daily-first" style="height:70%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="newLeadCountPer>70&&newLeadCountPer<76"  class="lead-status-daily-first" style="height:75%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>75&&newLeadCountPer<81"   class="lead-status-daily-first" style="height:80%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="newLeadCountPer>80&&newLeadCountPer<86"   class="lead-status-daily-first" style="height:85%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="newLeadCountPer>85&&newLeadCountPer<91"  class="lead-status-daily-first" style="height:90%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="newLeadCountPer>90&&newLeadCountPer<96"  class="lead-status-daily-first" style="height:95%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="newLeadCountPer>95&&newLeadCountPer<99"  class="lead-status-daily-first" style="height:98%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                 <div   *ngIf="newLeadCountPer==99"  class="lead-status-daily-first" style="height:99%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                 <div   *ngIf="newLeadCountPer>99"  class="lead-status-daily-first" style="height:100%">
+                                     <button small margin-top secondary >{{newLeadCount}}</button>
+                                 </div>
+                                     
+                            </div>
+                            <div class="lead-stats-daily-bg">
+                                <div class="lead-status-daily-second" style="height:100%">
+                                    <button small margin-top secondary >{{preNewLeadCount}}</button>
+                                </div>
+                                
+                            </div>
+                            <div class="name-columen">
+                                New Lead
+                            </div>
+                       </div>
+                       
+                        <div class="comm-men-width" style="background-color: rgba(0, 0, 0, .2)">
+                            <div class="lead-stats-daily-bg">
+                            
+                                 <div  *ngIf="progressLeadCountPer<26"  class="lead-status-daily-first" style="height:25%">
+                                 <button small margin-top secondary >{{progressLeadCount}}</button></div>
+
+                                 <div  *ngIf="progressLeadCountPer>25&&progressLeadCountPer<31"  class="lead-status-daily-first" style="height:30%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div *ngIf="progressLeadCountPer>30&&progressLeadCountPer<36"   class="lead-status-daily-first" style="height:35%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>35&&progressLeadCountPer<41"  class="lead-status-daily-first" style="height:40%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>40&&progressLeadCountPer<46"    class="lead-status-daily-first" style="height:45%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>45&&progressLeadCountPer<51"   class="lead-status-daily-first" style="height:50%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>51&&progressLeadCountPer<56"  class="lead-status-daily-first" style="height:55%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>56&&progressLeadCountPer<61"  class="lead-status-daily-first" style="height:60%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="progressLeadCountPer>61&&progressLeadCountPer<66"  class="lead-status-daily-first" style="height:65%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="progressLeadCountPer>65&&progressLeadCountPer<71"  class="lead-status-daily-first" style="height:70%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="progressLeadCountPer>70&&progressLeadCountPer<76"  class="lead-status-daily-first" style="height:75%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>75&&progressLeadCountPer<81"   class="lead-status-daily-first" style="height:80%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="progressLeadCountPer>80&&progressLeadCountPer<86"   class="lead-status-daily-first" style="height:85%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="progressLeadCountPer>85&&progressLeadCountPer<91"  class="lead-status-daily-first" style="height:90%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="progressLeadCountPer>90&&progressLeadCountPer<96"  class="lead-status-daily-first" style="height:95%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="progressLeadCountPer>95&&progressLeadCountPer<99"  class="lead-status-daily-first" style="height:98%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                 <div   *ngIf="progressLeadCountPer==99"  class="lead-status-daily-first" style="height:99%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                                 <div   *ngIf="progressLeadCountPer>99"  class="lead-status-daily-first" style="height:100%">
+                                     <button small margin-top secondary >{{progressLeadCount}}</button>
+                                 </div>
+                           </div>
+                           <div class="lead-stats-daily-bg">
+                                <div class="lead-status-daily-second" style="height:100%">
+                                    <button small margin-top secondary >{{preProgressLeadCount}}</button>
+                                </div>
+                                
+                            </div>
+                            <div class="name-columen">
+                                In Progress
+                            </div>
+                        </div>
+                        
+                        <div class="comm-men-width" style="background-color: rgba(0, 0, 0, .3)">
+                            <div class="lead-stats-daily-bg">
+                            <div *ngIf="doneLeadCountPer<26" class="lead-status-daily-first" style="height:25%">
+                                <button small margin-top secondary >{{doneLeadCount}}</button>
+                            </div>
+                            <div  *ngIf="doneLeadCountPer>25&&doneLeadCountPer<31"  class="lead-status-daily-first" style="height:30%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div *ngIf="doneLeadCountPer>30&&doneLeadCountPer<36"   class="lead-status-daily-first" style="height:35%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>35&&doneLeadCountPer<41"  class="lead-status-daily-first" style="height:40%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>40&&doneLeadCountPer<46"    class="lead-status-daily-first" style="height:45%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>45&&doneLeadCountPer<51"   class="lead-status-daily-first" style="height:50%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>51&&doneLeadCountPer<56"  class="lead-status-daily-first" style="height:55%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>56&&doneLeadCountPer<61"  class="lead-status-daily-first" style="height:60%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="doneLeadCountPer>61&&doneLeadCountPer<66"  class="lead-status-daily-first" style="height:65%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="doneLeadCountPer>65&&doneLeadCountPer<71"  class="lead-status-daily-first" style="height:70%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="doneLeadCountPer>70&&doneLeadCountPer<76"  class="lead-status-daily-first" style="height:75%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>75&&doneLeadCountPer<81"   class="lead-status-daily-first" style="height:80%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div  *ngIf="doneLeadCountPer>80&&doneLeadCountPer<86"   class="lead-status-daily-first" style="height:85%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="doneLeadCountPer>85&&doneLeadCountPer<91"  class="lead-status-daily-first" style="height:90%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="doneLeadCountPer>90&&doneLeadCountPer<96"  class="lead-status-daily-first" style="height:95%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                  <div   *ngIf="doneLeadCountPer>95&&doneLeadCountPer<99"  class="lead-status-daily-first" style="height:98%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                 <div   *ngIf="doneLeadCountPer==99"  class="lead-status-daily-first" style="height:99%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                                 <div   *ngIf="doneLeadCountPer>99"  class="lead-status-daily-first" style="height:100%">
+                                     <button small margin-top secondary >{{doneLeadCount}}</button>
+                                 </div>
+                        </div>
+                        <div class="lead-stats-daily-bg">
+                            <div class="lead-status-daily-second" style="height:100%">
+                                <button small margin-top secondary >{{preDoneLeadCount}}</button>
+                            </div>
+                            
+                        </div>
+                        <div class="name-columen">
+                            Done
+                        </div>
+                        </div>
+               
+               </ion-row>
+           </div>
+                <!-- <div class="lead-stats-placeholder"> -->
+                <!-- <ion-row class="ab">
+                    <ion-col width-33>
+                        <ion-row> 
+                          <div class="daily-target">
+                             <div    class=" grey" style="height: 100%">10</div>
+                             <div    class=" black">20</div>     
+                        </div></ion-row>
+                      <ion-row class="bar-label">uuuuuuuuu</ion-row>
+                    </ion-col>
+                    <ion-col width-33>
+                      <ion-row> 
+                          <div class="daily-target">
+                             <div    class=" grey">55</div>
+                             <div    class=" black">66</div>     
+                        </div></ion-row>
+                      <ion-row class="bar-label">vvvvv</ion-row>
+                       
+                    </ion-col>
+                    <ion-col width-33>
+                        <ion-row> 
+                          <div class="daily-target">
+                             <div    class=" grey">44</div>
+                             <div    class=" black">55</div>      
+                        </div></ion-row>
+                      <ion-row class="bar-label">ooooo</ion-row>
+                    </ion-col>
+                </ion-row> -->
+                       
+                
+               <!--  <ion-buttons class="card-footer" end>
+                    <h2 class="card-footer-info">5 {{"dashboard.applicationsToGo" | translate}} </h2>
+                    <button secondary (click)="onLead('all')">{{"dashboard.viewAllLeads" | translate}}</button>
+                </ion-buttons> -->
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card class="card-dash">
+                <ion-card-header text-center>
+                    <ion-icon name="calendar" padding-right></ion-icon>
+                    {{"dashboard.meetings" | translate}}
+                    <!-- <span>{{now| dateMomentFormat: 'DD-MM-YYYY'}}</span> -->
+
+                </ion-card-header>
+                <ion-card-content *ngIf="appointments">
+                    <ion-row *ngFor="let appointment of appointments; let i=index">
+                        <ion-col width-66 padding *ngIf="i<2">
+                            <h2>{{appointment.name}} {{appointment.surname}}</h2>
+                            <h3>{{appointment.subject}}</h3>
+                        </ion-col>
+                        <ion-col width-33 text-right padding *ngIf="i<2">
+                            <button class="btn-glass" (click)='onLeadRelationshipManager(appointment)'>{{appointment.start | dateMomentFormat:'HH:mm'}}-{{appointment.end | dateMomentFormat:'HH:mm'}}
+                            </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+                <ion-buttons class="card-footer" end>
+                    <h2 class="card-footer-info"> {{now| dateMomentFormat: 'DD-MM-YYYY'}}</h2>
+                    <button secondary (click)='onCalendar()'>{{"dashboard.allEvents" | translate}}</button>
+                </ion-buttons>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+    <ion-row center responsive-lg>
+        <ion-col width-33>
+            <ion-card class="card-dash">
+                <ion-card-header text-center>
+                    <ion-icon name="trending-up" padding-right></ion-icon>
+                    {{"dashboard.monthlyPerformance" | translate}}
+                </ion-card-header>
+                <ion-card-content>
+                    <!-- <h2 text-center><strong>82%</strong><br/> {{"dashboard.kpiAchievedForthisMonth" | translate}}</h2>
+                    <img src="image/pages/dashboard/stats.png" style="width:100%; position:absolute; bottom:0;"/> -->
+                     <canvas #lineCanvas></canvas>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card class="card-dash lead-stats">
+                <ion-card-header text-center>
+                    <ion-icon name="stats" padding-right></ion-icon>
+                    {{"lead.leads" | translate}}
+                    <button clear class="btn-dash-add" (click)="onLeadAdd()">
+                        <ion-icon name="add-circle"></ion-icon>
+                    </button>
+                </ion-card-header>
+                <div class="lead-stats-placeholder">
+                    <div class="lead-stats-bg">
+                           
+                         <div *ngIf="newlead>=0&&newlead<21"    class="lead-status" style="height:20%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                        <div *ngIf="newlead>20&&newlead<31"    class="lead-status" style="height:25%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="newleadw>30&&newleadw<41" class="lead-status" style="height:30%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="newlead>40&&newlead<46" class="lead-status" style="height:35%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="newlead>45&&newlead<51" class="lead-status" style="height:40%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="newlead>50&&newlead<61" class="lead-status" style="height:50%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                        <div *ngIf="newlead>60&&newlead<71" class="lead-status" style="height:55%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                         <div *ngIf="newlead>70&&newlead<81" class="lead-status" style="height:60%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                        <div *ngIf="newlead>80&&newlead<91" class="lead-status" style="height:65%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                        <div *ngIf="newlead>90&&newlead<96" class="lead-status" style="height:70%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                         <div *ngIf="newlead>95&&newlead<100" class="lead-status" style="height:75%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                        <div *ngIf="newlead>99" class="lead-status" style="height:80%">
+                            
+                            <button small margin-top secondary (click)="onLead('newlead')">{{leadsummery.new}}</button>
+                            <div>{{"lead.filter.new" | translate}}</div>
+                        </div>
+                    </div>
+                    <div class="lead-stats-bg">
+
+                        <div *ngIf="followUp>=0&&followUp<21"    class="lead-status" style="height:20%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                        <div *ngIf="followUp>20&&followUp<31"    class="lead-status" style="height:25%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="followUp>30&&followUp<41" class="lead-status" style="height:30%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="followUp>40&&followUp<46" class="lead-status" style="height:35%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="followUp>45&&followUp<51" class="lead-status" style="height:40%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="followUp>50&&followUp<61" class="lead-status" style="height:50%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                        <div *ngIf="followUp>60&&followUp<71" class="lead-status" style="height:55%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                         <div *ngIf="followUp>70&&followUp<81" class="lead-status" style="height:60%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                        <div *ngIf="followUp>80&&followUp<91" class="lead-status" style="height:65%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                        <div *ngIf="followUp>90&&followUp<96" class="lead-status" style="height:70%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                         <div *ngIf="followUp>95&&followUp<100" class="lead-status" style="height:75%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                        <div *ngIf="followUp>99" class="lead-status" style="height:80%">
+                           
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                             <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div>
+                       <!--  <div class="lead-status" style="height:65%">
+                            <button small margin-top secondary (click)="onLead('followUp')">{{leadsummery.followup}}</button>
+                            <div>{{"lead.filter.followUp" | translate}}</div>
+                        </div> -->
+                    </div>
+                    <div class="lead-stats-bg">
+
+                         <div *ngIf="favourite>=0&&favourite<21"    class="lead-status" style="height:20%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                        <div *ngIf="favourite>20&&favourite<31"    class="lead-status" style="height:25%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="favouritew>30&&favouritew<41" class="lead-status" style="height:30%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="favourite>40&&favourite<46" class="lead-status" style="height:35%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="favourite>45&&favourite<51" class="lead-status" style="height:40%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+
+                        <div *ngIf="favourite>50&&favourite<61" class="lead-status" style="height:50%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                        <div *ngIf="favourite>60&&favourite<71" class="lead-status" style="height:55%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                         <div *ngIf="favourite>70&&favourite<81" class="lead-status" style="height:60%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                        <div *ngIf="favourite>80&&favourite<91" class="lead-status" style="height:65%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                        <div *ngIf="favourite>90&&favourite<96" class="lead-status" style="height:70%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                         <div *ngIf="favourite>95&&favourite<100" class="lead-status" style="height:75%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                        <div *ngIf="favourite>99" class="lead-status" style="height:80%">
+                            
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            <div>{{"lead.filter.favourite" | translate}}</div>
+                        </div>
+                       <!--  <div class="lead-status" style="height:20%">
+                            <button small margin-top secondary (click)="onLead('favourite')">{{leadsummery.favorite}}</button>
+                            
+                        </div> -->
+                    </div>
+                    <div class="lead-stats-bg">
+                        <div class="lead-status" style="height:80%">
+                            <button small margin-top secondary (click)="onLead('all')">{{leadsummery.total}}</button>
+                            <div>{{"lead.filter.all" | translate}}</div>
+                        </div>
+                    </div>
+                </div>
+            </ion-card>
+        </ion-col>
+        <ion-col width-33>
+            <ion-card >
+            <!-- <div class="tips-{{tipsClass}}">
+                <span>{{wordsOfDay}}.</span>
+            </div> -->
+                <ion-slides pager>
+                    <ion-slide class="tips" padding>
+                        {{wordsOfDay1}}
+                    </ion-slide>
+                    <ion-slide class="tips" padding>
+                        {{wordsOfDay}}
+                    </ion-slide>
+                    <ion-slide class="tips" padding>
+                        {{wordsOfDay2}}
+                    </ion-slide>
+                </ion-slides>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>
+
+

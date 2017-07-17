@@ -1,0 +1,162 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{appProvider.current.lead.surname}} {{appProvider.current.lead.name}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onSave()">
+                {{"action.save" | translate}}
+                <ion-icon name='checkmark'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <form #backgroundForm="ngForm" novalidate (ngSubmit)="onSave()" *ngIf="background">
+        <ion-row>
+            <ion-col width-50>
+                <ion-card>
+                    <ion-card-header>
+                        {{"lead.background.general" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.education" | translate}} *</ion-label>
+                            <ion-select [(ngModel)]="background.education" name="education" #education="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let education of lookupProvider.backgroudEducations | async" [value]="education">{{'lookup.backgroudEducation.' + education | translate}}
+                                </ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <!--<p [hidden]="education.valid || !education.touched" danger padding-left>-->
+                        <!--{{"message.mandatory" | translate}}-->
+                        <!--</p>-->
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.employment" | translate}} *</ion-label>
+                            <ion-select [(ngModel)]="background.employment" name="employment" #employment="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let employment of lookupProvider.employments | async" [value]="employment">{{'lookup.employment.' + employment | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+
+                        <ion-item *ngIf="background.employment === 'work_for_a_company'">
+                            <ion-label stacked> {{"lead.background.employmentType" | translate}} *</ion-label>
+                            <ion-select [(ngModel)]="background.occupationType" name="employmentType" #employmentType="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let employmentType of lookupProvider.employmentType | async" [value]="employmentType">{{'lookup.employmentType.' + employmentType | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <!--<p [hidden]="employment.valid || !employment.touched" danger padding-left>-->
+                        <!--{{"message.mandatory" | translate}}-->
+                        <!--</p>-->
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.hobbies" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="background.hobbies" name="hobbies" type="text" maxlength="50" #hobbies="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.note" | translate}}</ion-label>
+                            <ion-input [(ngModel)]="background.note" name="note" type="text" maxlength="50" #note="ngModel"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.ownership" | translate}} *</ion-label>
+                            <ion-select [(ngModel)]="background.ownership" name="ownership" #ownership="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let ownership of lookupProvider.ownerships | async" [value]="ownership">{{'lookup.ownership.' + ownership | translate}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <!--<p [hidden]="ownership.valid || !ownership.touched" danger padding-left>-->
+                        <!--{{"message.mandatory" | translate}}-->
+                        <!--</p>-->
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.residential" | translate}} *</ion-label>
+                            <ion-select [(ngModel)]="background.residential" name="residential" #residential="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let residential of lookupProvider.residentials | async" [value]="residential">{{'lookup.residential.' + residential | translate}}
+                                </ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <!--<p [hidden]="residential.valid || !residential.touched" danger padding-left>-->
+                        <!--{{"message.mandatory" | translate}}-->
+                        <!--</p>-->
+                        <ion-item>
+                            <ion-label stacked>{{"lead.background.classification" | translate}} *</ion-label>
+                            <ion-select [(ngModel)]="background.classification" name="classification" #classification="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let classification of lookupProvider.classifications | async" [value]="classification">{{'lookup.classification.' + classification |
+                                    translate}}
+                                </ion-option>
+                            </ion-select>
+                        </ion-item>
+                        <!--<p [hidden]="classification.valid || !classification.touched" danger padding-left>-->
+                        <!--{{"message.mandatory" | translate}}-->
+                        <!--</p>-->
+                        <ion-item *ngIf="background.classification && background.classification !== 'individual'">
+                            <ion-label stacked>{{"lead.background.businessState" | translate}}</ion-label>
+                            <ion-select [(ngModel)]="background.businessState" name="businessState" #businessState="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let businessState of lookupProvider.businessStates | async" [value]="businessState">{{'lookup.businessState.' + businessState |
+                                    translate}}
+                                </ion-option>
+                            </ion-select>
+                        </ion-item>
+
+                        <ion-item *ngIf="background.classification && background.classification !== 'individual' && background.businessState === 'business'">
+                            <ion-label stacked>{{"lead.background.businessType" | translate}}</ion-label>
+                            <ion-select [(ngModel)]="background.businessType" name="businessType" #businessType="ngModel" [cancelText]="'action.cancel' | translate"
+                                        [okText]="'action.submit' | translate">
+                                <ion-option *ngFor="let businessType of lookupProvider.businessType | async" [value]="businessType">{{'lookup.businessType.' + businessType |
+                                    translate}}
+                                </ion-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col width-50>
+                <ion-card>
+                    <ion-card-header>
+                        {{"lead.background.insurance" | translate}} &amp; {{"lead.background.accumulativeAssets" | translate}}
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item-divider>
+                            {{"lead.background.insurance" | translate}}
+                        </ion-item-divider>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{"lead.background.insuranceLife" | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="background.insuranceLife" name="insuranceLife"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{"lead.background.insuranceGeneral" | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="background.insuranceGeneral" name="insuranceGeneral"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-item-divider>
+                            {{"lead.background.accumulativeAssets" | translate}}
+                        </ion-item-divider>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{"lead.background.accumulativeCar" | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="background.accumulativeCar" name="accumulativeCar"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label>{{"lead.background.accumulativeOther" | translate}}</ion-label>
+                                    <ion-checkbox [(ngModel)]="background.accumulativeOther" name="accumulativeOther"></ion-checkbox>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </form>
+    <print *ngIf="appProvider.debug" name="background" [value]="background"></print>
+</ion-content>

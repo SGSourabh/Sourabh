@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-searchbar [placeholder]="'action.search' | translate" (ionInput)="populateCompanyOptions($event)"></ion-searchbar>
+        <ion-buttons end>
+            <button (click)="onDismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list no-margin>
+        <ion-item text-wrap *ngFor="let companyOption of companyOptions" (click)="onSelect(companyOption)">
+            {{ companyOption }}
+        </ion-item>
+    </ion-list>
+</ion-content>

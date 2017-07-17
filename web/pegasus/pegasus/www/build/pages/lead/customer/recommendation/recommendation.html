@@ -1,0 +1,97 @@
+<ion-header>
+    <ion-navbar primary hideBackButton>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title text-center>{{'lead.recommendations.recommendations' | translate}}</ion-title>
+        <ion-buttons left>
+            <button (click)="onback()" >
+                <ion-icon class="back-button-icon ion-md-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right>
+            <button (click)="onAdd()" *ngIf="showAdd()">
+                {{"action.add" | translate}}
+                <ion-icon name='add'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="customer-recommendation">
+
+    <ion-card *ngIf="goals && goals.length > 0">
+        <ion-card-header>
+            {{"lead.recommendations.yourGoals" | translate}}
+        </ion-card-header>
+        <ion-card-content>
+            <ion-row wrap>
+                <ion-col ion-item width-25 text-wrap *ngFor="let goalData of goals">
+                    <ion-thumbnail item-left class="icon-override">
+                        <ion-icon [class]="goalData.icon"></ion-icon>
+                    </ion-thumbnail>
+                    <p>{{'lookup.goals.' + goalData.goal | translate}}</p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+
+    <ng-container *ngIf="suggestions && suggestions.length > 0">
+        <ion-card>
+            <ion-card-header>
+                {{"lead.recommendations.suggestionsText" | translate}}
+            </ion-card-header>
+            <ion-card-content>
+                <ion-row wrap>
+                    <ion-col width-25 *ngFor="let suggestionData of suggestions">
+                        <ion-card (click)="onExplore(suggestionData)">
+                            <ion-item class="item-override" text-wrap>
+                                <ion-thumbnail item-left class="icon-override">
+                                    <img [src]="'image/icon/' + suggestionData.productData.icon"/>
+                                </ion-thumbnail>
+                                <p>{{"lookup.productType." + suggestionData.productData.product | translate}}</p>
+                            </ion-item>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+
+    <ng-container *ngIf="appProvider.current.selections && appProvider.current.selections.length > 0">
+        <ion-card>
+            <ion-card-header>
+                {{"lead.recommendations.productsSelectedForYou" | translate}}
+            </ion-card-header>
+            <ion-card-content>
+                <ion-row wrap>
+                    <ion-col width-33 no-padding *ngFor="let selectionData of appProvider.current.selections">
+                        <ion-card>
+                            <ion-card-header text-center>
+                                {{"lookup.productType." + selectionData.productData.product | translate}}
+                            </ion-card-header>
+                            <div (click)="onExploreImage(selectionData)">
+                            <img [src]="cordovaProvider.getStoredPath('product/' + selectionData.productData.product + '/' + selectionData.productData.product + '.jpg')"/></div>
+                            <!-- <ion-list *ngFor="let like of likesdata ">
+                                <ion-item *ngIf="like.productType==selectionData.productData.product">{{'lookup.productSalesGroup.' + like.productSalesGroup | translate}}
+                                     
+                                          <ion-icon item-left secondary name="heart"></ion-icon>
+                                      
+                              </ion-item>
+                            </ion-list> -->
+                            <ion-buttons padding>
+                                <button secondary (click)="onApply(selectionData)" *ngIf="selectionData.selection.status !== 'referred'">{{"action.apply" | translate}}</button>
+                                <button secondary disabled="true" *ngIf="selectionData.selection.status =='referred'">{{"action.apply" | translate}}</button>
+                                <!-- <button primary (click)="onRefer(selectionData.productData.product)" *ngIf="selectionData.selection.status !== 'to_refer'">{{"lead.recommendations.refer" | translate}}</button> -->
+                                <button primary (click)="onRefer(selectionData)" >{{"lead.recommendations.refer" | translate}}</button>
+                                <!-- <button primary disabled="true" *ngIf="selectionData.selection.status =='referred'">{{"lead.recommendations.refer" | translate}}</button> -->
+                                <button secondary outline (click)="onRemove(selectionData)">{{"action.remove" | translate}}</button>
+                            </ion-buttons>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+
+</ion-content>
+

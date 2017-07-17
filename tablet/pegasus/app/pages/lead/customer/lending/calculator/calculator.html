@@ -1,0 +1,131 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>{{'lookup.productType.' + appProvider.current.suggestionData.suggestion.productType | translate}} {{"lead.lending.calculator.calculator" | translate}}</ion-title>
+
+        <!--<ion-buttons right>-->
+        <!--<button (click)="onNext()">-->
+        <!--{{"action.next" | translate}}-->
+        <!--<ion-icon name='arrow-forward'></ion-icon>-->
+        <!--</button>-->
+        <!--</ion-buttons>-->
+
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-card *ngIf="model">
+        <ion-card-content>
+
+            <!--<ion-item>-->
+            <!--<ion-label stacked>{{"lead.lending.calculator.product_type" | translate}}</ion-label>-->
+            <!--<ion-select (ionChange)="onProductTypeChange()" [(ngModel)]="model.productType" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">-->
+            <!--<ion-option *ngFor="let productType of productTypeOptions() | async" [value]="productType">{{'lead.lending.calculator.lookup.product_type.' + productType | translate}}-->
+            <!--</ion-option>-->
+            <!--</ion-select>-->
+            <!--<ion-input [value]="'lookup.productType.' + model.productType | translate" disabled></ion-input>-->
+            <!--</ion-item>-->
+
+            <ion-item>
+                <ion-label stacked>{{"lead.lending.calculator.product_name" | translate}}</ion-label>
+                <ion-select (ionChange)="onProductNameChange()" [(ngModel)]="model.productName" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let productName of productNameOptions() | async" [value]="productName">{{'lead.lending.calculator.lookup.product_name.' + productName | translate}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>{{"lead.lending.calculator.lending_package" | translate}}</ion-label>
+                <ion-select (ionChange)="onLendingPackageChange()" [(ngModel)]="model.lendingPackage" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                    <ion-option *ngFor="let lendingPackage of lendingPackageOptions() | async" [value]="lendingPackage">{{'lead.lending.calculator.lookup.lending_package.' + lendingPackage |
+                        translate}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            <ng-container *ngIf="hasCollateral() | async">
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.collateral" | translate}}</ion-label>
+                    <ion-select (ionChange)="onCollateralChange()" [(ngModel)]="model.collateral" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let collateral of collateralOptions() | async" [value]="collateral">{{'lead.lending.calculator.lookup.collateral.' + collateral | translate}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.ownership" | translate}}</ion-label>
+                    <ion-select (ionChange)="onOwnershipChange()" [(ngModel)]="model.ownership" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let ownership of ownershipOptions() | async" [value]="ownership">{{'lead.lending.calculator.lookup.ownership.' + ownership | translate}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.brand" | translate}}</ion-label>
+                    <ion-select (ionChange)="onBrandChange()" [(ngModel)]="model.brand" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let brand of brandOptions() | async" [value]="brand">{{'lead.lending.calculator.lookup.brand.' + brand | translate}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item *ngIf="hasManufactured()">
+                    <ion-label stacked>{{"lead.lending.calculator.manufactured" | translate}}</ion-label>
+                    <ion-select [(ngModel)]="model.manufactured" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let manufactured of manufacturedOptions() | async" [value]="manufactured">{{manufactured}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.owners_age" | translate}}</ion-label>
+                    <ion-select [(ngModel)]="model.ownersAge" [cancelText]="'action.cancel' | translate" [okText]="'action.submit' | translate">
+                        <ion-option *ngFor="let ownersAge of ownersAgeOptions() | async" [value]="ownersAge">{{ownersAge}}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ng-container>
+            <ion-row>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.monthly_income" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                    <ion-input [(ngModel)]="model.monthlyIncome" currency maxlength="19">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.monthly_expense" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                    <ion-input [(ngModel)]="model.monthlyExpense" currency maxlength="19">
+                    </ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.loan_amount" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                    <ion-input [(ngModel)]="model.loanAmount" currency maxlength="19">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.loan_term" | translate}} ({{"lead.lending.calculator.month" | translate}}) ({{"lead.lending.calculator.max" |
+                        translate}} {{model.safeSelectedCollateralTerm()}})
+                    </ion-label>
+                    <ion-input [(ngModel)]="model.loanTerm" type="number">
+                    </ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.interest_rate" | translate}} (%)</ion-label>
+                    <ion-input [value]="model.calculatedRate() | number:'1.2-2'" type="text" readonly>
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.maximum_loan_amount" | translate}} ({{"lead.lending.calculator.vnd" | translate}})</ion-label>
+                    <ion-input [value]="model.calculatedMaxLoanAmount() | number:'1.2-2'" type="text" readonly>
+                    </ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.loan_date" | translate}}</ion-label>
+                    <ion-input [value]="model.loanDate | date:'dd-MM-y'" type="text" readonly>
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>{{"lead.lending.calculator.due_date" | translate}}</ion-label>
+                    <ion-input [value]="model.calculatedDueDate() | date:'dd-MM-y'" type="text" readonly>
+                    </ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-buttons padding-top *ngIf="hasRepaymentSchedule()">
+                <button secondary (click)="onRepaymentSchedule()">{{"lead.lending.calculator.repayment_schedule" | translate}}</button>
+            </ion-buttons>
+
+        </ion-card-content>
+    </ion-card>
+</ion-content>

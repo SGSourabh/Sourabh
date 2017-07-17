@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"lead.introduction.awards" | translate}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onNext()">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="introduction-awards" [style.background]="'url(' + cordovaProvider.getStoredPath('introduction/awards.jpg') + ')'">
+    <ion-card class="card-override">
+        <ion-card-header>
+            <div class="divider">
+                <div><span></span><span></span><span></span></div>
+            </div>
+            <ion-row bottom>
+                <ion-col width-66>
+                    <h2>{{"lead.introduction.awards" | translate}}</h2>
+                </ion-col>
+                <ion-col width-33 text-right>
+                    <img src="image/logo.svg">
+                </ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content>
+            <ul text-left>
+                <li *ngFor="let i of [1,2,3,4,5,6,7]">{{"lead.introduction.award-" + i | translate}}.</li>
+            </ul>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

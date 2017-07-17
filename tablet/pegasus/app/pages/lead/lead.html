@@ -1,0 +1,185 @@
+
+
+<style type="text/css">
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+    height: 50px;
+    }
+    tr:nth-child(odd) {
+    background-color: #F4F4F4;
+    }
+    tr:first-child {
+    background-color: #999999;
+    }
+    .favorite{
+    background-color: #A9D5F9!important;  
+    }
+</style>
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{"lead.leads" | translate}}</ion-title>
+        <ion-buttons end>
+            <button (click)="onCreate()">
+                {{"action.create" | translate}}
+                <ion-icon name="add"></ion-icon>
+            </button>
+            <button (click)="onSearch()">
+                {{"action.search" | translate}}
+                <ion-icon name="search"></ion-icon>
+            </button>
+            <button (click)="onFilter()">
+                {{"action.filter" | translate}}
+                <ion-icon name="options"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content padding class="lead">
+    <ion-card class="table-list">
+        <!--   <ion-card-header> -->
+        <!--  <ion-row class="table-list-header">
+            <ion-col width-5 class="status" text-center>{{"lead.status" | translate}}</ion-col>
+             <ion-col width-5 text-center>{{"lead.favourite" | translate}}</ion-col>
+             <ion-col width-15 text-center>{{"lead.name" | translate}}</ion-col>
+             <ion-col width-15 text-center>{{"lead.surname" | translate}}</ion-col>
+             <ion-col width-15 text-center>{{"lead.phone" | translate}}</ion-col>
+             <ion-col width-15 text-center>{{"lead.productType" | translate}}</ion-col>
+             <ion-col width-15 text-center>{{"lead.source" | translate}}</ion-col>
+             <ion-col width-15 text-center>{{"lead.created" | translate}}</ion-col>
+            
+            <ion-col width-10>{{"lead.daysOld" | translate}}</ion-col> 
+            </ion-row> -->
+        <!-- <table>
+            <tr class="table-list-header">
+                    <td  style="width: 155px" class="status" text-center>{{"lead.status" | translate}}</td>
+                    <td style="width: 155px" text-center>{{"lead.favourite" | translate}}</td>
+                    <td  style="width: 155px" text-center>{{"lead.name" | translate}}</td>
+                    <td  style="width: 280px" text-center>{{"lead.surname" | translate}}</td>
+                    <td  style="width: 220px" text-center>{{"lead.phone" | translate}}</td>
+                    <td  style="width: 570px" text-center>{{"lead.productType" | translate}}</td>
+                    <td style="width: 155px" text-center>{{"lead.source" | translate}}</td>
+                    <td style="width: 155px" text-center>{{"lead.created" | translate}}</td>
+            </tr></table> -->
+        <!-- </ion-card-header> -->
+        <ion-card-content>
+            <!-- <ion-list *ngIf="leads">
+                <ion-item-sliding *ngFor="let lead of leads">
+                    <button ion-item [class.favorite]="lead.favourite" (click)="onLead(lead)">
+                   
+                        <ion-row  class="table-list-content">
+                            <ion-col width-5 text-center class="status">
+                            <div class="status" [class.status-new]="lead.status === 'customer_verification'" [class.status-progress]="lead.status !== 'customer_verification'"></div></ion-col>
+                            
+                            <ion-col width-5 text-center>
+                                <ion-icon secondary name="star" *ngIf="lead.favourite"></ion-icon>
+                            </ion-col>
+                            <ion-col width-15 text-center> 
+                                  {{lead.name | truncate: 15}}
+                            </ion-col>
+                            <ion-col width-15 text-center>
+                                  {{lead.surname | truncate: 15}}
+                            </ion-col>
+                            <ion-col width-15 text-center>
+                                  {{lead.phone | truncate: 10 }}
+                            </ion-col>
+                            <ion-col width-15 text-center>
+                                  {{lead.productType ? ('lookup.productType.' + lead.productType | translate) : null}}
+                            </ion-col>
+                            <ion-col width-15 text-center>
+                                  <ion-icon primary class="icon-{{lead.source}}"></ion-icon>
+                                  {{'lookup.source.' + lead.source | translate}}
+                            </ion-col>
+                            <ion-col width-15 text-center>
+                                  {{lead.created |dateMomentFormat: 'DD-MM-YYYY HH:mm' }}
+                            </ion-col>
+                            
+                        </ion-row>
+                        
+                     </button> 
+                </ion-item-sliding> -->
+            <!--   </ion-list> -->
+            <table class="">
+                <tr class="table-list-header" >
+                    <td  style="width: 155px"  text-center>{{"lead.status" | translate}}</td>
+                    <td style="width: 155px" text-center>{{"lead.favourite" | translate}}</td>
+                    <td  style="width: 155px" text-center>{{"lead.name" | translate}}</td>
+                    <td  style="width: 280px" text-center>{{"lead.surname" | translate}}</td>
+                    <td  style="width: 220px" text-center>{{"lead.phone" | translate}}</td>
+                    <td  style="width: 570px" text-center>{{"lead.productType" | translate}}</td>
+                    <td style="width: 155px" text-center>{{"lead.source" | translate}}</td>
+                    <td style="width: 155px" text-center>{{"lead.created" | translate}}</td>
+                </tr>
+                <tr *ngFor="let lead of leads"  (click)="onLead(lead)" class="table-list-content" [class.favorite]="lead.favourite" >
+                <td style="width: 155px" text-center >
+                    <div class="status" [class.status-new]="lead.status === 'customer_verification'" [class.status-progress]="lead.status !== 'customer_verification'"></div>
+                </td>
+                <td style="width: 155px" text-center >
+                    <ion-icon secondary name="star" *ngIf="lead.favourite"></ion-icon>
+                </td>
+                <td style="width: 155px" text-center> 
+                    {{lead.name | truncate: 15}}
+                </td>
+                <td style="width: 280px" text-center>
+                    {{lead.surname | truncate: 15}}
+                </td>
+                <td style="width: 220px" text-center>
+                    {{lead.phone | truncate: 10 }}
+                </td>
+                <td style="width: 570px" text-center>
+                    {{lead.productType ? ('lookup.productType.' + lead.productType | translate) : null}}
+                </td>
+                <td style="width: 155px" text-center>
+                    <ion-icon primary class="icon-pegasus" *ngIf="lead.source=='pegasus'"></ion-icon>
+                    <ion-icon primary class="icon-branch_network" *ngIf="lead.source=='lmt'"></ion-icon>
+                    <ion-icon primary class="icon-call_center" *ngIf="lead.source=='crm'"></ion-icon>
+                    <!--  {{'lookup.source.' + lead.source | translate}} -->
+                </td>
+                <td style="width: 155px" text-center>
+                    {{lead.created |dateMomentFormat: 'DD-MM-YYYY' }}
+                </td>
+                </tr>
+            </table>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+<ion-footer class="lead">
+    <ion-toolbar position="bottom" white>
+        <ion-row responsive-lg center>
+            <ion-col width-30>
+                <div class="status status-new"></div>
+                {{"message.new" | translate}}
+                <div class="status status-progress"></div>
+                {{"message.inprogress" | translate}}
+                <div class="status status-referred"></div>
+                {{"message.referred" | translate}}
+            </ion-col>
+            <ion-col width-50>
+                <div class="legend">
+                    <ion-icon class="icon-pegasus"></ion-icon>
+                    {{"lookup.source.pegasus" | translate}}
+                </div>
+                <div class="legend">
+                    <ion-icon class="icon-call_center"></ion-icon>
+                    {{"lookup.source.callCenter" | translate}}
+                </div>
+                <div class="legend">
+                    <ion-icon class="icon-customer_referral"></ion-icon>
+                    {{"lookup.source.customerReferral" | translate}}
+                </div>
+                <div class="legend">
+                    <ion-icon class="icon-branch_network"></ion-icon>
+                    {{"lookup.source.branchNetwork" | translate}}
+                </div>
+            </ion-col>
+            <ion-col width-20>
+                <div class="list-count" text-center *ngIf="leads">{{"message.displaying" | translate}} <strong>{{leads.length}}</strong> {{"message.of" | translate}} <strong>{{leads.length}}</strong></div>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>
+

@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>{{appProvider.current.lead.surname}} {{appProvider.current.lead.name}}</ion-title>
+        <ion-buttons right>
+            <button (click)="onNext()">
+                {{"action.next" | translate}}
+                <ion-icon name='arrow-forward'></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            {{"lead.personal.cicCheck" | translate}}
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item>
+                <h3> {{"lead.personal.cicCheckPassedQuestion" | translate}}</h3>
+                <p> {{"lead.personal.cicCheckNoRecord" | translate}}</p>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

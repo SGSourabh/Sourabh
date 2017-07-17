@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar primary>
+        <ion-title>
+            {{"action.add" | translate}}
+        </ion-title>
+        <ion-buttons end>
+            <button (click)="onDismiss()">
+                {{"action.close" | translate}}
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-row wrap>
+        <ion-col width-50 no-padding *ngFor="let productData of products">
+            <ion-card (click)="onSelect(productData)">
+                <ion-card-header text-center class="header-override">
+                    {{"lookup.productType." + productData.product | translate}}
+                </ion-card-header>
+                <img [src]="cordovaProvider.getStoredPath('product/' + productData.product + '/' + productData.product + '.jpg')"/>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>
